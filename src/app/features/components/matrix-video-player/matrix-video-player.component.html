@@ -1,0 +1,91 @@
+<div class="video-player-card">
+  <div class="player-header">
+    <span class="live-tag"><span class="red-dot"></span> Visual Frame Playback</span>
+    <span class="frame-counter">Frame {{ currentIndex + 1 }} / {{ steps.length }}</span>
+  </div>
+
+  <!-- STAGE / CANVAS VIEW -->
+  <div class="stage-view">
+    <div class="dual-display">
+      <!-- Matrix Stage -->
+      <div class="matrix-box">
+        <span class="box-title">Matrix Stage</span>
+        <div class="matrix-grid-visual">
+          <div 
+            *ngFor="let row of currentStep.matrix; let i = index" 
+            class="visual-row"
+            [class.row-target]="i === currentStep.highlightRow"
+            [class.row-pivot]="i === currentStep.pivotRow"
+          >
+            <div *ngIf="i === currentStep.highlightRow && currentStep.pivotRow !== undefined" class="svg-arrow-pointer">
+              ➔
+            </div>
+
+            <div 
+              *ngFor="let val of row; let j = index" 
+              class="visual-cell"
+              [class.pivot-circle]="i === currentStep.pivotRow && j === currentStep.pivotCol"
+              [class.constant-val]="j === row.length - 1"
+            >
+              {{ val }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Linear Equations Stage -->
+      <div class="equations-box">
+        <span class="box-title">System Equations Stage</span>
+        <div class="equation-lines">
+          <div 
+            *ngFor="let eq of currentStep.equations; let i = index" 
+            class="eq-line"
+            [class.eq-highlight]="i === currentStep.highlightRow"
+          >
+            {{ eq }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step Formula Detail Overlay -->
+    <div *ngIf="currentStep.formulaDetail" class="formula-overlay">
+      Operation Formula: {{ currentStep.formulaDetail }}
+    </div>
+  </div>
+
+  <!-- EXPLANATION BANNER -->
+  <div class="explanation-banner">
+    <strong>{{ currentStep.description }}:</strong>
+    <p>{{ currentStep.detailedExplanation }}</p>
+  </div>
+
+  <!-- PLAYER CONTROLS & TIMELINE -->
+  <div class="controls-panel">
+    <!-- Progress Timeline Slider -->
+    <input 
+      type="range" 
+      min="0" 
+      [max]="steps.length - 1" 
+      [value]="currentIndex" 
+      (input)="seekTo($any($event.target).value)" 
+      class="timeline-slider"
+    >
+
+    <div class="buttons-row">
+      <div class="playback-btns">
+        <button (click)="prevStep()" [disabled]="currentIndex === 0">⏮️ Prev</button>
+        <button class="play-btn" (click)="togglePlay()">
+          {{ isPlaying ? '⏸️ Pause' : '▶️ Play Animation' }}
+        </button>
+        <button (click)="nextStep()" [disabled]="currentIndex === steps.length - 1">Next ⏭️</button>
+      </div>
+
+      <div class="speed-selector">
+        <span class="speed-label">Speed:</span>
+        <button [class.active]="playbackSpeed === 1500" (click)="setSpeed(1500)">0.5x</button>
+        <button [class.active]="playbackSpeed === 1000" (click)="setSpeed(1000)">1x</button>
+        <button [class.active]="playbackSpeed === 500" (click)="setSpeed(500)">2x</button>
+      </div>
+    </div>
+  </div>
+</div>

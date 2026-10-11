@@ -1,0 +1,34 @@
+<div class="final-result-card" [ngClass]="solution.status">
+  <div class="result-header">
+    <div class="status-badge">
+      <span class="icon">★</span>
+      System Outcome: {{ solution.status | uppercase }}
+    </div>
+    <div class="ranks-info">
+      Rank(A) = {{ solution.matrixRank }} | Rank(A|b) = {{ solution.augmentedRank }}
+    </div>
+  </div>
+
+  <p class="status-msg">{{ solution.statusMessage }}</p>
+
+  <!-- VARIABLE SOLUTION VALUES (GRAPHICAL CARDS) -->
+  <div *ngIf="solution.status === 'unique'" class="variables-grid">
+    <div *ngFor="let varName of getObjectKeys(solution.variables)" class="var-card">
+      <span class="var-name">{{ varName }}</span>
+      <span class="var-equals">=</span>
+      <span class="var-value">{{ solution.variables[varName] }}</span>
+    </div>
+  </div>
+
+  <!-- FINAL MATRIX SUMMARY SHOWCASE -->
+  <div class="final-matrix-showcase">
+    <h4>Final Matrix Form:</h4>
+    <div class="matrix-display">
+      <div *ngFor="let row of solution.finalMatrix" class="matrix-row">
+        <span *ngFor="let cell of row; let j = index" class="cell" [class.last]="j === row.length - 1">
+          {{ cell }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

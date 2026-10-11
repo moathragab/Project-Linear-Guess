@@ -1,0 +1,103 @@
+.step-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+
+  &.complete { border-color: #10b981; }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+
+    .step-num {
+      background: #334155;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+
+    .step-desc { color: #38bdf8; font-weight: bold; }
+    .formula-badge {
+      margin-left: auto;
+      background: #0f172a;
+      color: #f43f5e;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-weight: bold;
+    }
+  }
+
+  .step-body {
+    .grid-dual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 12px;
+
+      .matrix-bracket {
+        display: inline-flex;
+        flex-direction: column;
+        gap: 6px;
+        position: relative;
+        padding: 6px 12px;
+        &::before, &::after {
+          content: '';
+          position: absolute;
+          top: 0; bottom: 0;
+          width: 8px;
+          border: 2px solid #64748b;
+        }
+        &::before { left: 0; border-right: none; }
+        &::after { right: 0; border-left: none; }
+
+        .row-line {
+          display: flex;
+          gap: 12px;
+          padding: 2px 6px;
+          border-radius: 4px;
+
+          &.row-highlight { background: rgba(239, 68, 68, 0.15); }
+          &.row-pivot { background: rgba(16, 185, 129, 0.15); }
+
+          .val-cell {
+            min-width: 50px;
+            text-align: center;
+            font-family: monospace;
+            font-weight: bold;
+            color: #f8fafc;
+
+            &.pivot-element {
+              color: #10b981;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      .equations-representation {
+        font-family: monospace;
+        color: #94a3b8;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+    }
+
+    .detailed-text {
+      background: #0f172a;
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      strong { color: #38bdf8; }
+    }
+  }
+}

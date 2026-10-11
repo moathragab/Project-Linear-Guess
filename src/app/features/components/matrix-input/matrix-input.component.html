@@ -1,0 +1,69 @@
+<div class="input-card">
+  <!-- Input Mode Switcher -->
+  <div class="mode-tabs">
+    <button [class.active]="inputMode === 'grid'" (click)="inputMode = 'grid'">
+      <span class="icon">▦</span> Matrix Grid Input
+    </button>
+    <button [class.active]="inputMode === 'text'" (click)="inputMode = 'text'">
+      <span class="icon">✍️</span> Text Equations Input
+    </button>
+  </div>
+
+  <!-- GRID MODE INPUT -->
+  <div *ngIf="inputMode === 'grid'" class="grid-mode-container">
+    <div class="dimension-bar">
+      <div class="custom-stepper-group">
+        <label>Rows (n):</label>
+        <div class="stepper">
+          <button type="button" (click)="adjustDimension('rows', -1)">-</button>
+          <span>{{ rows }}</span>
+          <button type="button" (click)="adjustDimension('rows', 1)">+</button>
+        </div>
+      </div>
+      <div class="custom-stepper-group">
+        <label>Columns (m):</label>
+        <div class="stepper">
+          <button type="button" (click)="adjustDimension('cols', -1)">-</button>
+          <span>{{ cols }}</span>
+          <button type="button" (click)="adjustDimension('cols', 1)">+</button>
+        </div>
+      </div>
+
+      <div class="quick-btns">
+        <button type="button" class="btn-sub" (click)="loadSample()">Sample System</button>
+        <button type="button" class="btn-sub" (click)="randomize()">Random</button>
+      </div>
+    </div>
+
+    <form [formGroup]="matrixForm" class="matrix-grid-form">
+      <div formArrayName="grid" class="matrix-brackets">
+        <div *ngFor="let row of grid.controls; let i = index" [formArrayName]="i" class="matrix-row">
+          <div *ngFor="let cell of getRowArray(i).controls; let j = index" class="cell-unit" [class.constant-col]="j === cols - 1">
+            <input type="number" [formControlName]="j" step="any">
+            <div class="input-spinners">
+              <button type="button" (click)="adjustCellValue(i, j, 1)">▲</button>
+              <button type="button" (click)="adjustCellValue(i, j, -1)">▼</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- TEXT MODE INPUT -->
+  <div *ngIf="inputMode === 'text'" class="text-mode-container">
+    <label class="text-label">Enter System Equations (One equation per line):</label>
+    <textarea [(ngModel)]="textEquations" rows="5" placeholder="e.g. 2x + y - z = 8&#10;-3x - y + 2z = -11"></textarea>
+    <p class="hint-text">Supported variables: x, y, z or x1, x2, x3. Coefficients parsed automatically.</p>
+  </div>
+
+  <!-- ACTION SOLVE BUTTONS -->
+  <div class="action-bar">
+    <button type="button" class="btn-solve ref" (click)="submit(false)">
+      Solve Gaussian (REF)
+    </button>
+    <button type="button" class="btn-solve rref" (click)="submit(true)">
+      Solve Gauss-Jordan (RREF)
+    </button>
+  </div>
+</div>
