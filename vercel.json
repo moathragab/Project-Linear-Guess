@@ -1,6 +1,5 @@
 {
-  "version": 2,
-  "framework": null,
-  "buildCommand": "npx nx build Linear-Guess",
-  "outputDirectory": "dist/Linear-Guess"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "source": "/feedback/((?!general).*)",
+  "destination": "/api/feedback/general"
 }
