@@ -77,7 +77,7 @@ export class MatrixInputComponent implements OnInit {
 
   adjustCellValue(rowIndex: number, colIndex: number, delta: number): void {
     const control = this.getRowArray(rowIndex).at(colIndex);
-    const curr = Number(control.value) || 0;
+    const curr = Number(this.toEnglishDigits(String(control.value))) || 0;
     control.setValue(curr + delta);
   }
 
@@ -127,5 +127,23 @@ export class MatrixInputComponent implements OnInit {
         alert('Could not parse textual equations. Please check format (e.g. 2x + 3y = 7).');
       }
     }
+  }
+
+  // دالة تحويل الأرقام العربية الشرقية إلى أرقام إنجليزية لاتينية
+  toEnglishDigits(str: string): string {
+    if (!str) return '';
+    return str
+      .replace(/[٠-٩]/g, d => (d.charCodeAt(0) - 1632).toString()) // تحويل الأرقام الشرقية
+      .replace(/[^-0-9.]/g, ''); // السماح فقط بالأرقام والنقطة والعلامة السالبة
+  }
+  
+  // عند كتابة أو تغيير القيمة داخل الخلية
+  onCellInput(event: Event, rowIndex: number, colIndex: number): void {
+    const inputEl = event.target as HTMLInputElement;
+    const convertedValue = this.toEnglishDigits(inputEl.value);
+    
+    // تحديث القيمة المعروضة وقيمة النموذج فوراً
+    inputEl.value = convertedValue;
+    this.getRowArray(rowIndex).at(colIndex).setValue(convertedValue, { emitEvent: false });
   }
 }
