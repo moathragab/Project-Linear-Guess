@@ -135,7 +135,14 @@
             color: #f8fafc;
             text-align: center;
             font-weight: bold;
-            font-family: 'JetBrains Mono', monospace;
+
+            direction: ltr !important;
+            unicode-bidi: isolate !important;
+            font-family: 'JetBrains Mono', 'Fira Code', Arial, sans-serif !important;
+            
+            /* تعطيل التشكيل المحلي للأرقام وتفعيل الأرقام اللاتينية القياسية */
+            font-variant-numeric: lining-nums tabular-nums !important;
+            font-feature-settings: "locl" 0, "lnum" 1, "tnum" 1 !important;
 
             &:focus {
               outline: none;
