@@ -13,7 +13,7 @@ html, body {
 }
 
 /* إجبار المتصفح على عرض الأرقام بتنسيق إنجليزي */
-input, input[type="number"] {
+button[lang="en"], button[dir="ltr"] {
   font-variant-numeric: lining-nums tabular-nums !important;
   font-feature-settings: "lnum" 1, "tnum" 1 !important;
   direction: ltr !important;
