@@ -39,7 +39,7 @@
       <div formArrayName="grid" class="matrix-brackets">
         <div *ngFor="let row of grid.controls; let i = index" [formArrayName]="i" class="matrix-row">
           <div *ngFor="let cell of getRowArray(i).controls; let j = index" class="cell-unit" [class.constant-col]="j === cols - 1">
-            <input type="number" [formControlName]="j" step="any">
+            <input type="number" lang="en" dir="ltr" [formControlName]="j" step="any">
             <div class="input-spinners">
               <button type="button" lang="en" dir="ltr" (click)="adjustCellValue(i, j, 1)">▲</button>
               <button type="button" lang="en" dir="ltr" (click)="adjustCellValue(i, j, -1)">▼</button>
