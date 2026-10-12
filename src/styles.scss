@@ -11,3 +11,11 @@ html, body {
 *, *::before, *::after {
   box-sizing: inherit;
 }
+
+/* إجبار المتصفح على عرض الأرقام بتنسيق إنجليزي */
+input, input[type="number"] {
+  font-variant-numeric: lining-nums tabular-nums !important;
+  font-feature-settings: "lnum" 1, "tnum" 1 !important;
+  direction: ltr !important;
+  font-family: Arial, Roboto, sans-serif !important;
+}
