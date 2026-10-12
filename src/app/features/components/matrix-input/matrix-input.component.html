@@ -41,8 +41,8 @@
           <div *ngFor="let cell of getRowArray(i).controls; let j = index" class="cell-unit" [class.constant-col]="j === cols - 1">
             <input type="number" [formControlName]="j" step="any">
             <div class="input-spinners">
-              <button type="button" (click)="adjustCellValue(i, j, 1)">▲</button>
-              <button type="button" (click)="adjustCellValue(i, j, -1)">▼</button>
+              <button type="button" lang="en" dir="ltr" (click)="adjustCellValue(i, j, 1)">▲</button>
+              <button type="button" lang="en" dir="ltr" (click)="adjustCellValue(i, j, -1)">▼</button>
             </div>
           </div>
         </div>
