@@ -1,8 +1,0 @@
-[build]
-  command = "npx nx build Linear-Guess"
-  publish = "dist/Linear-Guess"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
