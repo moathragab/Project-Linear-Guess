@@ -35,18 +35,20 @@
   }
 
   .step-body {
-    .grid-dual {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 12px;
+    .matrix-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 10px 0;
 
       .matrix-bracket {
         display: inline-flex;
         flex-direction: column;
         gap: 6px;
         position: relative;
-        padding: 6px 12px;
+        padding: 6px 16px;
+
         &::before, &::after {
           content: '';
           position: absolute;
@@ -54,8 +56,8 @@
           width: 8px;
           border: 2px solid #64748b;
         }
-        &::before { left: 0; border-right: none; }
-        &::after { right: 0; border-left: none; }
+        &::before { left: 0; border-right: none; border-radius: 4px 0 0 4px; }
+        &::after { right: 0; border-left: none; border-radius: 0 4px 4px 0; }
 
         .row-line {
           display: flex;
@@ -69,7 +71,7 @@
           .val-cell {
             min-width: 50px;
             text-align: center;
-            font-family: monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-weight: bold;
             color: #f8fafc;
 
@@ -79,14 +81,6 @@
             }
           }
         }
-      }
-
-      .equations-representation {
-        font-family: monospace;
-        color: #94a3b8;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
       }
     }
 
