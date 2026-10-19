@@ -35,15 +35,28 @@
     display: flex;
     align-items: center;
     gap: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
-
     .custom-stepper-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
 
-      label { color: #cbd5e1; font-weight: 500; font-size: 0.9rem; }
+      label {
+        display: flex;
+        flex-direction: column;
+
+        .lbl-primary {
+          color: #f8fafc;
+          font-weight: 600;
+          font-size: 0.85rem;
+        }
+
+        .lbl-sub {
+          color: #38bdf8;
+          font-size: 0.75rem;
+        }
+      }
 
       .stepper {
         display: flex;
@@ -51,24 +64,44 @@
         background: #0f172a;
         border: 1px solid #475569;
         border-radius: 8px;
+        overflow: hidden;
 
         button {
           background: transparent;
           border: none;
           color: #38bdf8;
           width: 32px;
-          height: 32px;
+          height: 34px;
           font-weight: bold;
           font-size: 1.1rem;
           cursor: pointer;
+          transition: background 0.15s;
+
           &:hover { background: #1e293b; }
         }
 
-        span {
-          width: 30px;
+        .stepper-input {
+          width: 42px;
+          height: 34px;
+          background: transparent;
+          border: none;
+          color: #f8fafc;
           text-align: center;
           font-weight: bold;
-          color: #f8fafc;
+          font-size: 1rem;
+          font-family: 'JetBrains Mono', monospace;
+
+          /* Remove chrome spin arrows */
+          &::-webkit-inner-spin-button,
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+
+          &:focus {
+            outline: none;
+            background: rgba(56, 189, 248, 0.1);
+          }
         }
       }
     }
@@ -82,10 +115,13 @@
         background: #334155;
         color: #f8fafc;
         border: none;
-        padding: 6px 12px;
+        padding: 8px 14px;
         border-radius: 6px;
         cursor: pointer;
         font-size: 0.85rem;
+        font-weight: 500;
+        transition: background 0.2s;
+
         &:hover { background: #475569; }
       }
     }
@@ -94,91 +130,102 @@
   .matrix-grid-form {
     overflow-x: auto;
     padding: 10px 0;
-    .matrix-brackets {
+
+    .grid-wrapper {
       display: inline-flex;
       flex-direction: column;
-      gap: 10px;
-      position: relative;
-      padding: 10px 18px;
+      align-items: center;
 
-      &::before, &::after {
-        content: '';
-        position: absolute;
-        top: 0; bottom: 0;
-        width: 10px;
-        border: 3px solid #64748b;
-      }
-      &::before { left: 0; border-right: none; border-radius: 6px 0 0 6px; }
-      &::after { right: 0; border-left: none; border-radius: 0 6px 6px 0; }
-
-      .matrix-row {
+      .grid-headers {
         display: flex;
         gap: 10px;
+        padding: 0 18px;
+        margin-bottom: 8px;
 
-        .cell-unit {
-          position: relative;
+        .header-cell {
+          width: 95px; // متطابق مع عرض الخلية 75px + زر التحكم 20px
+          text-align: center;
+          font-family: 'JetBrains Mono', monospace;
+          font-weight: bold;
+          font-size: 0.85rem;
+
+          &.var-cell { color: #38bdf8; }
+          &.const-cell { color: #10b981; }
+        }
+      }
+
+      .matrix-brackets {
+        display: inline-flex;
+        flex-direction: column;
+        gap: 10px;
+        position: relative;
+        padding: 10px 18px;
+
+        &::before, &::after {
+          content: '';
+          position: absolute;
+          top: 0; bottom: 0;
+          width: 10px;
+          border: 3px solid #64748b;
+        }
+        &::before { left: 0; border-right: none; border-radius: 6px 0 0 6px; }
+        &::after { right: 0; border-left: none; border-radius: 0 6px 6px 0; }
+
+        .matrix-row {
           display: flex;
+          gap: 10px;
 
-          /* Remove default number spin arrows */
-          input[type=number]::-webkit-inner-spin-button, 
-          input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
-          }
-
-          input {
-            width: 75px;
-            height: 40px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 8px 0 0 8px;
-            color: #f8fafc;
-            text-align: center;
-            font-weight: bold;
-
-            direction: ltr !important;
-            unicode-bidi: isolate !important;
-            font-family: 'JetBrains Mono', 'Fira Code', Arial, sans-serif !important;
-            
-            /* تعطيل التشكيل المحلي للأرقام وتفعيل الأرقام اللاتينية القياسية */
-            font-variant-numeric: lining-nums tabular-nums !important;
-            font-feature-settings: "locl" 0, "lnum" 1, "tnum" 1 !important;
-
-            &:focus {
-              outline: none;
-              border-color: #38bdf8;
-            }
-          }
-
-          .input-spinners {
+          .cell-unit {
+            position: relative;
             display: flex;
-            flex-direction: column;
 
-            button {
-              background: #334155;
-              border: 1px solid #475569;
-              color: #94a3b8;
-              font-size: 0.6rem;
-              width: 20px;
-              height: 20px;
-              cursor: pointer;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              &:first-child { border-radius: 0 8px 0 0; }
-              &:last-child { border-radius: 0 0 8px 0; }
-              &:hover { background: #475569; color: #fff; }
+            input[type=text] {
+              width: 75px;
+              height: 40px;
+              background: #0f172a;
+              border: 1px solid #334155;
+              border-radius: 8px 0 0 8px;
+              color: #f8fafc;
+              text-align: center;
+              font-weight: bold;
+              font-family: 'JetBrains Mono', monospace;
+              font-size: 0.95rem;
+
+              &:focus {
+                outline: none;
+                border-color: #38bdf8;
+              }
             }
-          }
 
-          &.constant-col {
-            margin-left: 12px;
-            &::before {
-              content: '';
-              position: absolute;
-              left: -12px; top: 0; bottom: 0;
-              width: 2px;
-              border-left: 2px dashed #475569;
+            .input-spinners {
+              display: flex;
+              flex-direction: column;
+              button {
+                background: #334155;
+                border: 1px solid #475569;
+                color: #94a3b8;
+                font-size: 0.6rem;
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &:first-child { border-radius: 0 8px 0 0; }
+                &:last-child { border-radius: 0 0 8px 0; }
+                &:hover { background: #475569; color: #fff; }
+              }
+            }
+
+            &.constant-col {
+              margin-left: 12px;
+              &::before {
+                content: '';
+                position: absolute;
+                left: -12px; top: 0; bottom: 0;
+                width: 2px;
+                border-left: 2px dashed #10b981;
+              }
             }
           }
         }

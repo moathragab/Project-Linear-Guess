@@ -16,12 +16,13 @@ export class MatrixInputComponent implements OnInit {
     rref: boolean; 
     variableNames: string[] 
   }>();
+
   inputMode: 'grid' | 'text' = 'grid';
   matrixForm!: FormGroup;
   textEquations = "2x + y - z = 8\n-3x - y + 2z = -11\n-2x + y + 2z = -3";
   
-  rows = 3;
-  cols = 4;
+  numEquations: number = 3; // عدد المعادلات (الصفوف)
+  numVariables: number = 3; // عدد المتغيرات (أعمدة المعاملات)
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +31,16 @@ export class MatrixInputComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  // إجمالي الأعمدة = عدد المتغيرات + 1 (للحد الثابت b)
+  get totalCols(): number {
+    return this.numVariables + 1;
+  }
+
+  // توليد أسماء المتغيرات تلقائياً (x1, x2, x3...)
+  get variableNames(): string[] {
+    return Array.from({ length: this.numVariables }, (_, i) => `x${i + 1}`);
   }
 
   initForm(): void {
@@ -48,31 +59,55 @@ export class MatrixInputComponent implements OnInit {
   }
 
   generateGrid(): void {
+    const previousValues = this.grid ? this.grid.value : [];
     this.grid.clear();
-    for (let i = 0; i < this.rows; i++) {
+
+    for (let i = 0; i < this.numEquations; i++) {
       const row = this.fb.array([]);
-      for (let j = 0; j < this.cols; j++) {
-        row.push(this.fb.control(0, Validators.required));
+      for (let j = 0; j < this.totalCols; j++) {
+        const existingVal = (previousValues[i] && previousValues[i][j] !== undefined) 
+          ? previousValues[i][j] 
+          : 0;
+        row.push(this.fb.control(existingVal, Validators.required));
       }
       this.grid.push(row);
     }
   }
 
-  // Custom Steppers for Smooth Control
-  adjustDimension(type: 'rows' | 'cols', delta: number): void {
-    if (type === 'rows') {
-      const newVal = this.rows + delta;
-      if (newVal >= 1 && newVal <= 10) {
-        this.rows = newVal;
-        this.generateGrid();
-      }
-    } else {
-      const newVal = this.cols + delta;
-      if (newVal >= 2 && newVal <= 11) {
-        this.cols = newVal;
-        this.generateGrid();
-      }
+  adjustEquations(delta: number): void {
+    const newVal = this.numEquations + delta;
+    if (newVal >= 1 && newVal <= 10) {
+      this.numEquations = newVal;
+      this.generateGrid();
     }
+  }
+
+  adjustVariables(delta: number): void {
+    const newVal = this.numVariables + delta;
+    if (newVal >= 1 && newVal <= 10) {
+      this.numVariables = newVal;
+      this.generateGrid();
+    }
+  }
+
+   onEquationsInputChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let val = parseInt(input.value, 10);
+    if (isNaN(val) || val < 1) val = 1;
+    if (val > 10) val = 10;
+    this.numEquations = val;
+    input.value = String(val);
+    this.generateGrid();
+  }
+
+  onVariablesInputChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let val = parseInt(input.value, 10);
+    if (isNaN(val) || val < 1) val = 1;
+    if (val > 10) val = 10;
+    this.numVariables = val;
+    input.value = String(val);
+    this.generateGrid();
   }
 
   adjustCellValue(rowIndex: number, colIndex: number, delta: number): void {
@@ -82,17 +117,17 @@ export class MatrixInputComponent implements OnInit {
   }
 
   loadSample(): void {
-    this.rows = 3;
-    this.cols = 4;
+    this.numEquations = 3;
+    this.numVariables = 3;
     const sample = [
       [2, 1, -1, 8],
       [-3, -1, 2, -11],
       [-2, 1, 2, -3]
     ];
     this.grid.clear();
-    for (let i = 0; i < this.rows; i++) {
+    for (let i = 0; i < this.numEquations; i++) {
       const row = this.fb.array([]);
-      for (let j = 0; j < this.cols; j++) {
+      for (let j = 0; j < this.totalCols; j++) {
         row.push(this.fb.control(sample[i][j]));
       }
       this.grid.push(row);
@@ -100,9 +135,9 @@ export class MatrixInputComponent implements OnInit {
   }
 
   randomize(): void {
-    for (let i = 0; i < this.rows; i++) {
+    for (let i = 0; i < this.numEquations; i++) {
       const row = this.getRowArray(i);
-      for (let j = 0; j < this.cols; j++) {
+      for (let j = 0; j < this.totalCols; j++) {
         row.at(j).setValue(Math.floor(Math.random() * 19) - 9);
       }
     }
@@ -111,10 +146,13 @@ export class MatrixInputComponent implements OnInit {
   submit(toRREF: boolean): void {
     if (this.inputMode === 'grid') {
       const matrixData: number[][] = this.grid.value.map((row: any[]) =>
-        row.map(cell => Number(cell) || 0)
+        row.map(cell => Number(this.toEnglishDigits(String(cell))) || 0)
       );
-      const vars = Array.from({ length: this.cols - 1 }, (_, i) => `x${i + 1}`);
-      this.solveEvent.emit({ matrix: matrixData, rref: toRREF, variableNames: vars });
+      this.solveEvent.emit({ 
+        matrix: matrixData, 
+        rref: toRREF, 
+        variableNames: this.variableNames 
+      });
     } else {
       const parsed = this.parserService.parseEquations(this.textEquations.split('\n'));
       if (parsed) {
@@ -129,20 +167,16 @@ export class MatrixInputComponent implements OnInit {
     }
   }
 
-  // دالة تحويل الأرقام العربية الشرقية إلى أرقام إنجليزية لاتينية
   toEnglishDigits(str: string): string {
     if (!str) return '';
     return str
-      .replace(/[٠-٩]/g, d => (d.charCodeAt(0) - 1632).toString()) // تحويل الأرقام الشرقية
-      .replace(/[^-0-9.]/g, ''); // السماح فقط بالأرقام والنقطة والعلامة السالبة
+      .replace(/[٠-٩]/g, d => (d.charCodeAt(0) - 1632).toString())
+      .replace(/[^-0-9.]/g, '');
   }
-  
-  // عند كتابة أو تغيير القيمة داخل الخلية
+
   onCellInput(event: Event, rowIndex: number, colIndex: number): void {
     const inputEl = event.target as HTMLInputElement;
     const convertedValue = this.toEnglishDigits(inputEl.value);
-    
-    // تحديث القيمة المعروضة وقيمة النموذج فوراً
     inputEl.value = convertedValue;
     this.getRowArray(rowIndex).at(colIndex).setValue(convertedValue, { emitEvent: false });
   }

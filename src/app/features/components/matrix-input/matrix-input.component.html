@@ -12,23 +12,47 @@
   <!-- GRID MODE INPUT -->
   <div *ngIf="inputMode === 'grid'" class="grid-mode-container">
     <div class="dimension-bar">
+      <!-- Equations Control (Rows) -->
       <div class="custom-stepper-group">
-        <label>Rows (n):</label>
+        <label>
+          <span class="lbl-primary">Equations:</span>
+          <span class="lbl-sub">عدد المعادلات</span>
+        </label>
         <div class="stepper">
-          <button type="button" (click)="adjustDimension('rows', -1)">-</button>
-          <span>{{ rows }}</span>
-          <button type="button" (click)="adjustDimension('rows', 1)">+</button>
-        </div>
-      </div>
-      <div class="custom-stepper-group">
-        <label>Columns (m):</label>
-        <div class="stepper">
-          <button type="button" (click)="adjustDimension('cols', -1)">-</button>
-          <span>{{ cols }}</span>
-          <button type="button" (click)="adjustDimension('cols', 1)">+</button>
+          <button type="button" (click)="adjustEquations(-1)">-</button>
+          <input
+          type="number" 
+            [value]="numEquations" 
+            min="1" 
+            max="10" 
+            (change)="onEquationsInputChange($event)"
+            class="stepper-input"
+          >
+          <button type="button" (click)="adjustEquations(1)">+</button>
         </div>
       </div>
 
+      <!-- Variables Control (Columns) -->
+      <div class="custom-stepper-group">
+        <label>
+          <span class="lbl-primary">Variables:</span>
+          <span class="lbl-sub">عدد المتغيرات</span>
+        </label>
+        <div class="stepper">
+          <button type="button" (click)="adjustVariables(-1)">-</button>
+          <input 
+            type="number" 
+            [value]="numVariables" 
+            min="1" 
+            max="10" 
+            (change)="onVariablesInputChange($event)"
+            class="stepper-input"
+          >
+          <button type="button" (click)="adjustVariables(1)">+</button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
       <div class="quick-btns">
         <button type="button" class="btn-sub" (click)="loadSample()">Sample System</button>
         <button type="button" class="btn-sub" (click)="randomize()">Random</button>
@@ -36,13 +60,35 @@
     </div>
 
     <form [formGroup]="matrixForm" class="matrix-grid-form">
-      <div formArrayName="grid" class="matrix-brackets">
-        <div *ngFor="let row of grid.controls; let i = index" [formArrayName]="i" class="matrix-row">
-          <div *ngFor="let cell of getRowArray(i).controls; let j = index" class="cell-unit" [class.constant-col]="j === cols - 1">
-            <input type="text" lang="en" dir="ltr" [formControlName]="j" step="any" (input)="onCellInput($event, i, j)" />
-            <div class="input-spinners">
-              <button type="button" lang="en" dir="ltr" (click)="adjustCellValue(i, j, 1)">▲</button>
-              <button type="button" lang="en" dir="ltr" (click)="adjustCellValue(i, j, -1)">▼</button>
+      <div class="grid-wrapper">
+        <!-- Variable Column Headers -->
+        <div class="grid-headers">
+          <div 
+            *ngFor="let varName of variableNames" 
+            class="header-cell var-cell"
+          >
+            {{ varName }}
+          </div>
+          <div class="header-cell const-cell">b (Constant)</div>
+        </div>
+
+        <!-- Matrix Bracket Cells -->
+        <div formArrayName="grid" class="matrix-brackets">
+          <div *ngFor="let row of grid.controls; let i = index" [formArrayName]="i" class="matrix-row">
+            <div 
+              *ngFor="let cell of getRowArray(i).controls; let j = index" 
+              class="cell-unit" 
+              [class.constant-col]="j === totalCols - 1"
+            >
+              <input 
+                type="text" 
+                [formControlName]="j"
+                (input)="onCellInput($event, i, j)"
+              >
+              <div class="input-spinners">
+                <button type="button" (click)="adjustCellValue(i, j, 1)">▲</button>
+                <button type="button" (click)="adjustCellValue(i, j, -1)">▼</button>
+              </div>
             </div>
           </div>
         </div>
