@@ -12,30 +12,42 @@
   <!-- GRID MODE INPUT -->
   <div *ngIf="inputMode === 'grid'" class="grid-mode-container">
     <div class="dimension-bar">
-      <!-- Equations Control (Rows) -->
+      <!-- Equations Control -->
       <div class="custom-stepper-group">
         <label>
           <span class="lbl-primary">Equations:</span>
-          <span class="lbl-sub">Number of equations</span>
+          <span class="lbl-sub">عدد المعادلات</span>
         </label>
         <div class="stepper" lang="en" dir="ltr">
           <button type="button" class="btn-step" (click)="adjustEquations(-1)">-</button>
-          <button type="button" class="stepper-val-btn" readonly tabindex="-1" lang="en" dir="ltr">
+          <button 
+            type="button" 
+            class="stepper-val-btn clickable" 
+            (click)="promptValue('equations')"
+            title="Click to type a custom value up to 1000"
+            lang="en" dir="ltr"
+          >
             {{ numEquations }}
           </button>
           <button type="button" class="btn-step" (click)="adjustEquations(1)">+</button>
         </div>
       </div>
 
-      <!-- Variables Control (Columns) -->
+      <!-- Variables Control -->
       <div class="custom-stepper-group">
         <label>
           <span class="lbl-primary">Variables:</span>
-          <span class="lbl-sub">Number of variables</span>
+          <span class="lbl-sub">عدد المتغيرات</span>
         </label>
         <div class="stepper" lang="en" dir="ltr">
           <button type="button" class="btn-step" (click)="adjustVariables(-1)">-</button>
-          <button type="button" class="stepper-val-btn" readonly tabindex="-1" lang="en" dir="ltr">
+          <button 
+            type="button" 
+            class="stepper-val-btn clickable" 
+            (click)="promptValue('variables')"
+            title="Click to type a custom value up to 1000"
+            lang="en" dir="ltr"
+          >
             {{ numVariables }}
           </button>
           <button type="button" class="btn-step" (click)="adjustVariables(1)">+</button>

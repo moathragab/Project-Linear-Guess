@@ -1,6 +1,6 @@
 <div class="video-player-card">
   <div class="player-header">
-    <span class="live-tag"><span class="red-dot"></span> Visual Frame Playback</span>
+    <span class="live-tag"><span class="red-dot"></span> Visual Animated Step Playback</span>
     <span class="frame-counter">Frame {{ currentIndex + 1 }} / {{ steps.length }}</span>
   </div>
 
@@ -9,7 +9,12 @@
     <div class="dual-display">
       <!-- Matrix Stage -->
       <div class="matrix-box">
-        <span class="box-title">Matrix Stage</span>
+        <div class="box-header">
+          <span class="box-title">Matrix Representation</span>
+          <span class="matrix-dims" *ngIf="currentStep.matrix[0]">
+            {{ currentStep.matrix.length }} × {{ currentStep.matrix[0].length }}
+          </span>
+        </div>
         <div class="matrix-grid-visual">
           <div 
             *ngFor="let row of currentStep.matrix; let i = index" 
@@ -32,36 +37,52 @@
           </div>
         </div>
       </div>
-      <!-- Linear Equations Stage -->
-      <div class="equations-box">
-        <span class="box-title">System Equations Stage</span>
-        <div class="equation-lines">
-          <div 
-            *ngFor="let eq of currentStep.equations; let i = index" 
-            class="eq-line"
-            [class.eq-highlight]="i === currentStep.highlightRow"
-          >
-            {{ eq }}
+
+      <!-- Advanced Step Analysis & Calculation Stage -->
+      <div class="analysis-box">
+        <div class="box-header">
+          <span class="box-title">Step Analysis & Calculation Details</span>
+          <span class="op-badge" [ngClass]="currentStep.operationType">
+            {{ currentStep.operationType | uppercase }}
+          </span>
+        </div>
+
+        <div class="analysis-content">
+          <!-- Step Formula Showcase -->
+          <div class="formula-card" *ngIf="currentStep.formulaDetail">
+            <span class="lbl">Algebraic Operation:</span>
+            <div class="formula-text">{{ currentStep.formulaDetail }}</div>
+          </div>
+
+          <!-- Mathematical Objective -->
+          <div class="objective-card">
+            <span class="lbl">Strategic Purpose:</span>
+            <p>{{ currentStep.description }}</p>
+          </div>
+
+          <!-- Active Row/Pivot Badges -->
+          <div class="row-stats" *ngIf="currentStep.pivotRow !== undefined || currentStep.highlightRow !== undefined">
+            <div class="stat-pill pivot" *ngIf="currentStep.pivotRow !== undefined">
+              Pivot Row: R{{ currentStep.pivotRow + 1 }}
+            </div>
+            <div class="stat-pill target" *ngIf="currentStep.highlightRow !== undefined">
+              Target Row: R{{ currentStep.highlightRow + 1 }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Step Formula Detail Overlay -->
-    <div *ngIf="currentStep.formulaDetail" class="formula-overlay">
-      Operation Formula: {{ currentStep.formulaDetail }}
     </div>
   </div>
 
   <!-- EXPLANATION BANNER -->
   <div class="explanation-banner">
-    <strong>{{ currentStep.description }}:</strong>
+    <div class="banner-title">
+      <span class="icon">💡</span> Extended Academic Explanation
+    </div>
     <p>{{ currentStep.detailedExplanation }}</p>
   </div>
-
   <!-- PLAYER CONTROLS & TIMELINE -->
   <div class="controls-panel">
-    <!-- Progress Timeline Slider -->
     <input 
       type="range" 
       min="0" 

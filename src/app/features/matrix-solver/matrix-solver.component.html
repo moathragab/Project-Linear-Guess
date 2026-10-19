@@ -2,8 +2,18 @@
   <!-- Input Component -->
   <app-matrix-input (solveEvent)="onSolveRequested($event)"></app-matrix-input>
 
+  <!-- Pre-Check Solvability Modal -->
+  <app-solvability-modal
+    *ngIf="showPreCheckModal && finalSolution"
+    [solution]="finalSolution"
+    [numEquations]="pendingNumEq"
+    [numVariables]="pendingNumVar"
+    (confirmEvent)="confirmAndShowSteps()"
+    (closeEvent)="closeModal()"
+  ></app-solvability-modal>
+
   <!-- Output & Solution Display Section -->
-  <div *ngIf="solutionSteps.length > 0" class="solution-display-wrapper">
+  <div *ngIf="solutionSteps.length > 0 && !showPreCheckModal" class="solution-display-wrapper">
     <!-- View Mode Switcher -->
     <div class="display-mode-bar">
       <h3>Step-by-Step Solution Breakdown</h3>
@@ -17,7 +27,7 @@
       </div>
     </div>
 
-    <!-- Video / Slideshow Mode -->
+    <!-- Video Mode -->
     <app-matrix-video-player 
       *ngIf="viewMode === 'video'" 
       [steps]="solutionSteps"

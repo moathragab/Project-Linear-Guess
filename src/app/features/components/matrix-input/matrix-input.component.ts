@@ -74,7 +74,7 @@ export class MatrixInputComponent implements OnInit {
 
   adjustEquations(delta: number): void {
     const newVal = this.numEquations + delta;
-    if (newVal >= 1 && newVal <= 10) {
+    if (newVal >= 1 && newVal <= 1000) {
       this.numEquations = newVal;
       this.generateGrid();
     }
@@ -82,9 +82,27 @@ export class MatrixInputComponent implements OnInit {
 
   adjustVariables(delta: number): void {
     const newVal = this.numVariables + delta;
-    if (newVal >= 1 && newVal <= 10) {
+    if (newVal >= 1 && newVal <= 1000) {
       this.numVariables = newVal;
       this.generateGrid();
+    }
+  }
+
+  promptValue(type: 'equations' | 'variables'): void {
+    const current = type === 'equations' ? this.numEquations : this.numVariables;
+    const input = prompt(`Enter number of ${type} (1 - 1000):, String(current)`);
+    if (input !== null) {
+      const val = parseInt(this.toEnglishDigits(input), 10);
+      if (!isNaN(val) && val >= 1 && val <= 1000) {
+        if (type === 'equations') {
+          this.numEquations = val;
+        } else {
+          this.numVariables = val;
+        }
+        this.generateGrid();
+      } else {
+        alert('Please enter a valid number between 1 and 1000.');
+      }
     }
   }
 

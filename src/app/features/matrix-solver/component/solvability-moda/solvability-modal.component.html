@@ -1,0 +1,71 @@
+<div class="modal-backdrop">
+  <div class="modal-card" [ngClass]="solution.status">
+    <div class="modal-header">
+      <div class="header-title">
+        <span class="pulse-icon">⚡️</span>
+        <h3>System Solvability & Feasibility Report</h3>
+      </div>
+      <button class="close-btn" (click)="onCancel()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Status Badge Indicator -->
+      <div class="verdict-banner" [ngClass]="solution.status">
+        <div class="status-icon">
+          <span *ngIf="solution.status === 'unique'">✅</span>
+          <span *ngIf="solution.status === 'infinite'">⚠️</span>
+          <span *ngIf="solution.status === 'no-solution'">❌</span>
+        </div>
+        <div class="status-details">
+          <h4>
+            <ng-container *ngIf="solution.status === 'unique'">System is Solvable (Unique Solution)</ng-container>
+            <ng-container *ngIf="solution.status === 'infinite'">System is Solvable (Infinite Solutions)</ng-container>
+            <ng-container *ngIf="solution.status === 'no-solution'">System is Inconsistent (No Solution)</ng-container>
+          </h4>
+          <p>{{ solution.statusMessage }}</p>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-lbl">Equations (m)</span>
+          <span class="metric-val">{{ numEquations }}</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-lbl">Variables (n)</span>
+          <span class="metric-val">{{ numVariables }}</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-lbl">Rank(A)</span>
+          <span class="metric-valHighlight">{{ solution.matrixRank }}</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-lbl">Rank(A|b)</span>
+          <span class="metric-valHighlight">{{ solution.augmentedRank }}</span>
+        </div>
+      </div>
+
+      <!-- Linear Algebra Theorem Summary -->
+      <div class="theorem-box">
+        <strong>Rouché–Capelli Theorem Verdict:</strong>
+        <p *ngIf="solution.status === 'unique'">
+          Since $Rank(A) = Rank(A|b) = n$, the system of linear equations is consistent and possesses a single unique solution vector.
+        </p>
+        <p *ngIf="solution.status === 'infinite'">
+          Since $Rank(A) = Rank(A|b) < n$, the system is consistent with $n - Rank(A)$ free parameters leading to infinitely many solutions.
+        </p>
+        <p *ngIf="solution.status === 'no-solution'">
+          Since $Rank(A) < Rank(A|b)$, at least one row yields $0 = c$ (where $c \neq 0$). The equations contradict each other; no solution exists.
+        </p>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="onCancel()">Dismiss</button>
+      <button class="btn-primary" (click)="onProceed()">
+        Explore Animated Solution & Step Breakdown ➔
+      </button>
+    </div>
+  </div>
+</div>
