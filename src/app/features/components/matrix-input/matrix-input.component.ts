@@ -21,8 +21,8 @@ export class MatrixInputComponent implements OnInit {
   matrixForm!: FormGroup;
   textEquations = "2x + y - z = 8\n-3x - y + 2z = -11\n-2x + y + 2z = -3";
   
-  numEquations: number = 3; // عدد المعادلات (الصفوف)
-  numVariables: number = 3; // عدد المتغيرات (أعمدة المعاملات)
+  numEquations: number = 3;
+  numVariables: number = 3;
 
   constructor(
     private fb: FormBuilder,
@@ -33,12 +33,10 @@ export class MatrixInputComponent implements OnInit {
     this.initForm();
   }
 
-  // إجمالي الأعمدة = عدد المتغيرات + 1 (للحد الثابت b)
   get totalCols(): number {
     return this.numVariables + 1;
   }
 
-  // توليد أسماء المتغيرات تلقائياً (x1, x2, x3...)
   get variableNames(): string[] {
     return Array.from({ length: this.numVariables }, (_, i) => `x${i + 1}`);
   }
@@ -90,26 +88,6 @@ export class MatrixInputComponent implements OnInit {
     }
   }
 
-   onEquationsInputChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let val = parseInt(input.value, 10);
-    if (isNaN(val) || val < 1) val = 1;
-    if (val > 10) val = 10;
-    this.numEquations = val;
-    input.value = String(val);
-    this.generateGrid();
-  }
-
-  onVariablesInputChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let val = parseInt(input.value, 10);
-    if (isNaN(val) || val < 1) val = 1;
-    if (val > 10) val = 10;
-    this.numVariables = val;
-    input.value = String(val);
-    this.generateGrid();
-  }
-
   adjustCellValue(rowIndex: number, colIndex: number, delta: number): void {
     const control = this.getRowArray(rowIndex).at(colIndex);
     const curr = Number(this.toEnglishDigits(String(control.value))) || 0;
@@ -133,7 +111,6 @@ export class MatrixInputComponent implements OnInit {
       this.grid.push(row);
     }
   }
-
   randomize(): void {
     for (let i = 0; i < this.numEquations; i++) {
       const row = this.getRowArray(i);

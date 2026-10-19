@@ -16,19 +16,14 @@
       <div class="custom-stepper-group">
         <label>
           <span class="lbl-primary">Equations:</span>
-          <span class="lbl-sub">عدد المعادلات</span>
+          <span class="lbl-sub">Number of equations</span>
         </label>
-        <div class="stepper">
-          <button type="button" (click)="adjustEquations(-1)">-</button>
-          <input
-          type="number" 
-            [value]="numEquations" 
-            min="1" 
-            max="10" 
-            (change)="onEquationsInputChange($event)"
-            class="stepper-input"
-          >
-          <button type="button" (click)="adjustEquations(1)">+</button>
+        <div class="stepper" lang="en" dir="ltr">
+          <button type="button" class="btn-step" (click)="adjustEquations(-1)">-</button>
+          <button type="button" class="stepper-val-btn" readonly tabindex="-1" lang="en" dir="ltr">
+            {{ numEquations }}
+          </button>
+          <button type="button" class="btn-step" (click)="adjustEquations(1)">+</button>
         </div>
       </div>
 
@@ -36,19 +31,14 @@
       <div class="custom-stepper-group">
         <label>
           <span class="lbl-primary">Variables:</span>
-          <span class="lbl-sub">عدد المتغيرات</span>
+          <span class="lbl-sub">Number of variables</span>
         </label>
-        <div class="stepper">
-          <button type="button" (click)="adjustVariables(-1)">-</button>
-          <input 
-            type="number" 
-            [value]="numVariables" 
-            min="1" 
-            max="10" 
-            (change)="onVariablesInputChange($event)"
-            class="stepper-input"
-          >
-          <button type="button" (click)="adjustVariables(1)">+</button>
+        <div class="stepper" lang="en" dir="ltr">
+          <button type="button" class="btn-step" (click)="adjustVariables(-1)">-</button>
+          <button type="button" class="stepper-val-btn" readonly tabindex="-1" lang="en" dir="ltr">
+            {{ numVariables }}
+          </button>
+          <button type="button" class="btn-step" (click)="adjustVariables(1)">+</button>
         </div>
       </div>
 
@@ -62,7 +52,7 @@
     <form [formGroup]="matrixForm" class="matrix-grid-form">
       <div class="grid-wrapper">
         <!-- Variable Column Headers -->
-        <div class="grid-headers">
+        <div class="grid-headers" lang="en" dir="ltr">
           <div 
             *ngFor="let varName of variableNames" 
             class="header-cell var-cell"
@@ -84,6 +74,8 @@
                 type="text" 
                 [formControlName]="j"
                 (input)="onCellInput($event, i, j)"
+                lang="en"
+                dir="ltr"
               >
               <div class="input-spinners">
                 <button type="button" (click)="adjustCellValue(i, j, 1)">▲</button>
@@ -95,11 +87,9 @@
       </div>
     </form>
   </div>
-
-  <!-- TEXT MODE INPUT -->
   <div *ngIf="inputMode === 'text'" class="text-mode-container">
     <label class="text-label">Enter System Equations (One equation per line):</label>
-    <textarea [(ngModel)]="textEquations" rows="5" placeholder="e.g. 2x + y - z = 8&#10;-3x - y + 2z = -11"></textarea>
+    <textarea [(ngModel)]="textEquations" rows="5" placeholder="e.g. 2x + y - z = 8&#10;-3x - y + 2z = -11" lang="en" dir="ltr"></textarea>
     <p class="hint-text">Supported variables: x, y, z or x1, x2, x3. Coefficients parsed automatically.</p>
   </div>
 

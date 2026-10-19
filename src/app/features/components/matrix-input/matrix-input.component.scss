@@ -37,6 +37,7 @@
     gap: 24px;
     margin-bottom: 24px;
     flex-wrap: wrap;
+
     .custom-stepper-group {
       display: flex;
       align-items: center;
@@ -65,13 +66,14 @@
         border: 1px solid #475569;
         border-radius: 8px;
         overflow: hidden;
+        direction: ltr;
 
-        button {
+        .btn-step {
           background: transparent;
           border: none;
           color: #38bdf8;
-          width: 32px;
-          height: 34px;
+          width: 34px;
+          height: 36px;
           font-weight: bold;
           font-size: 1.1rem;
           cursor: pointer;
@@ -80,28 +82,27 @@
           &:hover { background: #1e293b; }
         }
 
-        .stepper-input {
-          width: 42px;
-          height: 34px;
-          background: transparent;
+        .stepper-val-btn {
+          width: 44px;
+          height: 36px;
+          background: #1e293b;
           border: none;
+          border-left: 1px solid #334155;
+          border-right: 1px solid #334155;
           color: #f8fafc;
           text-align: center;
           font-weight: bold;
-          font-size: 1rem;
-          font-family: 'JetBrains Mono', monospace;
-
-          /* Remove chrome spin arrows */
-          &::-webkit-inner-spin-button,
-          &::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-          }
-
-          &:focus {
-            outline: none;
-            background: rgba(56, 189, 248, 0.1);
-          }
+          font-size: 1.05rem;
+          font-family: 'JetBrains Mono', 'Fira Code', monospace;
+          direction: ltr;
+          unicode-bidi: isolate;
+          font-variant-numeric: lining-nums;
+          font-feature-settings: "lnum";
+          cursor: default;
+          pointer-events: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
     }
@@ -110,7 +111,6 @@
       display: flex;
       gap: 10px;
       margin-left: auto;
-
       .btn-sub {
         background: #334155;
         color: #f8fafc;
@@ -141,9 +141,10 @@
         gap: 10px;
         padding: 0 18px;
         margin-bottom: 8px;
+        direction: ltr;
 
         .header-cell {
-          width: 95px; // متطابق مع عرض الخلية 75px + زر التحكم 20px
+          width: 95px;
           text-align: center;
           font-family: 'JetBrains Mono', monospace;
           font-weight: bold;
@@ -190,6 +191,10 @@
               font-weight: bold;
               font-family: 'JetBrains Mono', monospace;
               font-size: 0.95rem;
+              direction: ltr;
+              unicode-bidi: isolate;
+              font-variant-numeric: lining-nums;
+              font-feature-settings: "lnum";
 
               &:focus {
                 outline: none;
@@ -200,6 +205,7 @@
             .input-spinners {
               display: flex;
               flex-direction: column;
+
               button {
                 background: #334155;
                 border: 1px solid #475569;
@@ -245,6 +251,7 @@
       font-size: 1rem;
       padding: 12px;
       resize: vertical;
+      direction: ltr;
       &:focus { outline: none; border-color: #38bdf8; }
     }
     .hint-text { color: #64748b; font-size: 0.85rem; margin-top: 6px; }
@@ -254,7 +261,6 @@
     display: flex;
     gap: 16px;
     margin-top: 24px;
-
     .btn-solve {
       flex: 1;
       padding: 12px;
