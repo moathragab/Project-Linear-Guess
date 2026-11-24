@@ -1,31 +1,45 @@
-<div class="final-result-card" [ngClass]="solution.status">
-  <div class="result-header">
+<div *ngIf="solution" class="final-result-card" [ngClass]="solution.status" dir="ltr">
+  <div class="result-header" dir="ltr">
     <div class="status-badge">
       <span class="icon">★</span>
       System Outcome: {{ solution.status | uppercase }}
     </div>
-    <div class="ranks-info">
-      Rank(A) = {{ solution.matrixRank }} | Rank(A|b) = {{ solution.augmentedRank }}
+  </div>
+
+  <p class="status-msg" dir="ltr">{{ solution.statusMessage }}</p>
+
+  <!-- VARIABLE EQUATIONS (UNIQUE & INFINITE SOLUTIONS, STRICTLY LEFT-TO-RIGHT) -->
+  <div
+    *ngIf="solution.status === 'unique' || solution.status === 'infinite'"
+    class="variables-grid"
+    dir="ltr"
+  >
+    <div
+      *ngFor="let varName of getOrderedVariableNames()"
+      class="var-card"
+      dir="ltr"
+    >
+      <span class="var-name" dir="ltr">{{ varName }}</span>
+      <span class="var-equals">=</span>
+      <span class="var-value" dir="ltr">{{ solution.variables[varName] }}</span>
     </div>
   </div>
 
-  <p class="status-msg">{{ solution.statusMessage }}</p>
-
-  <!-- VARIABLE SOLUTION VALUES (GRAPHICAL CARDS) -->
-  <div *ngIf="solution.status === 'unique'" class="variables-grid">
-    <div *ngFor="let varName of getObjectKeys(solution.variables)" class="var-card">
-      <span class="var-name">{{ varName }}</span>
-      <span class="var-equals">=</span>
-      <span class="var-value">{{ solution.variables[varName] }}</span>
-    </div>
+  <!-- INCONSISTENT SYSTEM NOTICE (NO SOLUTION) -->
+  <div *ngIf="solution.status === 'no-solution'" class="no-solution-box" dir="ltr">
+    Row reduction resulted in a contradictory equation of the form <code>0 = c</code> (<code>c ≠ 0</code>).
   </div>
 
   <!-- FINAL MATRIX SUMMARY SHOWCASE -->
-  <div class="final-matrix-showcase">
+  <div *ngIf="solution.finalMatrix && solution.finalMatrix.length > 0" class="final-matrix-showcase" dir="ltr">
     <h4>Final Matrix Form:</h4>
-    <div class="matrix-display">
-      <div *ngFor="let row of solution.finalMatrix" class="matrix-row">
-        <span *ngFor="let cell of row; let j = index" class="cell" [class.last]="j === row.length - 1">
+    <div class="matrix-display" dir="ltr">
+      <div *ngFor="let row of solution.finalMatrix" class="matrix-row" dir="ltr">
+        <span
+          *ngFor="let cell of row; let j = index"
+          class="cell"
+          [class.last]="j === row.length - 1"
+        >
           {{ cell }}
         </span>
       </div>

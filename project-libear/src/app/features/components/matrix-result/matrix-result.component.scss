@@ -1,0 +1,84 @@
+.final-result-card {
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 32px;
+
+  &.unique { border-color: #10b981; }
+  &.infinite { border-color: #38bdf8; }
+  &.no-solution { border-color: #ef4444; }
+
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .status-badge {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ranks-info {
+      background: #0f172a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      color: #94a3b8;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+  }
+
+  .status-msg { color: #cbd5e1; font-size: 1rem; margin-bottom: 20px; }
+  .variables-grid {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+
+    .var-card {
+      background: #0f172a;
+      border: 1px solid #10b981;
+      border-radius: 12px;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+
+      .var-name { color: #10b981; font-weight: bold; font-size: 1.2rem; }
+      .var-equals { color: #64748b; }
+      .var-value { color: #f8fafc; font-weight: bold; font-size: 1.4rem; }
+    }
+  }
+
+  .final-matrix-showcase {
+    h4 { color: #94a3b8; margin-bottom: 10px; }
+    .matrix-display {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 8px 16px;
+      border-left: 3px solid #38bdf8;
+      border-right: 3px solid #38bdf8;
+
+      .matrix-row {
+        display: flex;
+        gap: 16px;
+        .cell {
+          width: 50px;
+          text-align: center;
+          font-family: monospace;
+          font-weight: bold;
+          color: #f8fafc;
+          &.last { color: #38bdf8; }
+        }
+      }
+    }
+  }
+}

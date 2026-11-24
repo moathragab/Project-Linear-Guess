@@ -40,7 +40,27 @@
       justify-content: center;
       align-items: center;
       margin-bottom: 16px;
-      padding: 10px 0;
+
+      .matrix-scroll-viewport {
+        max-height: 320px;
+        max-width: 100%;
+        overflow: auto;
+        border-radius: 8px;
+        border: 1px solid #334155;
+        padding: 12px 18px;
+        background: #0f172a;
+
+        &::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+        &::-webkit-scrollbar-track { background: #0f172a; }
+        &::-webkit-scrollbar-thumb {
+          background: #334155;
+          border-radius: 3px;
+          &:hover { background: #38bdf8; }
+        }
+      }
 
       .matrix-bracket {
         display: inline-flex;
@@ -64,7 +84,6 @@
           gap: 12px;
           padding: 2px 6px;
           border-radius: 4px;
-
           &.row-highlight { background: rgba(239, 68, 68, 0.15); }
           &.row-pivot { background: rgba(16, 185, 129, 0.15); }
 

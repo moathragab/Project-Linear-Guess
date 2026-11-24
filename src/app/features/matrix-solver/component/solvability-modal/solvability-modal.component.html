@@ -1,0 +1,81 @@
+<div class="modal-backdrop" dir="ltr" (click)="onCancel()">
+  <div class="modal-card" [ngClass]="solution.status" dir="ltr" (click)="$event.stopPropagation()">
+    <div class="modal-header" dir="ltr">
+      <div class="header-title">
+        <span class="pulse-icon">⚡️</span>
+        <h3>System Solvability & Feasibility Report</h3>
+      </div>
+      <button type="button" class="close-btn" (click)="onCancel()">✕</button>
+    </div>
+
+    <div class="modal-body" dir="ltr">
+      <!-- Status Badge Indicator -->
+      <div class="verdict-banner" [ngClass]="solution.status" dir="ltr">
+        <div class="status-icon">
+          <span *ngIf="solution.status === 'unique'">✅</span>
+          <span *ngIf="solution.status === 'infinite'">⚠️</span>
+          <span *ngIf="solution.status === 'no-solution'">❌</span>
+        </div>
+        <div class="status-details">
+          <h4>
+            <ng-container *ngIf="solution.status === 'unique'">System is Solvable (Unique Solution)</ng-container>
+            <ng-container *ngIf="solution.status === 'infinite'">System is Solvable (Infinite Solutions)</ng-container>
+            <ng-container *ngIf="solution.status === 'no-solution'">System is Inconsistent (No Solution)</ng-container>
+          </h4>
+          <p>{{ solution.statusMessage }}</p>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div class="metrics-grid" dir="ltr">
+        <div class="metric-card">
+          <span class="metric-lbl">Equations (m)</span>
+          <span class="metric-val">{{ numEquations }}</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-lbl">Variables (n)</span>
+          <span class="metric-val">{{ numVariables }}</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-lbl">Leading 1s</span>
+          <span class="metric-valHighlight">{{ solution.leadingCount }}</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-lbl">Free Parameters</span>
+          <span class="metric-valHighlight">{{ solution.freeParametersCount }}</span>
+        </div>
+      </div>
+
+      <!-- Row-Echelon Form Analysis -->
+      <div class="theorem-box" dir="ltr">
+        <strong>Row-Echelon Form Analysis:</strong>
+        <p *ngIf="solution.status === 'unique'">
+          Every variable column contains a Leading 1 with no contradictory rows, yielding a single exact value for each variable.
+        </p>
+        <p *ngIf="solution.status === 'infinite'">
+          {{ solution.freeParametersCount }} variable column(s) lack a Leading 1 and act as free parameters, expressing every variable as a parametric equation.
+        </p>
+        <p *ngIf="solution.status === 'no-solution'">
+          Elementary row operations produced at least one contradictory row of the form 0 = c (where c ≠ 0), so no solution exists.
+        </p>
+      </div>
+
+      <!-- Scrollable Variable Equations Preview (Left-to-Right) -->
+      <div
+        *ngIf="solution.status === 'unique' || solution.status === 'infinite'"
+        class="theorem-box"
+        dir="ltr"
+      >
+        <strong>{{ solution.status === 'infinite' ? 'Parametric Equations:' : 'Solution Equations:' }}</strong>
+        <div class="parametric-list" dir="ltr">
+          <div *ngFor="let varName of getOrderedVariableNames()" class="parametric-item" dir="ltr">
+            <span class="p-var">{{ varName }}</span>
+            <span class="p-eq">=</span>
+            <span class="p-val">{{ solution.variables[varName] }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" dir="ltr">
+      <button type="button" class="btn-secondary" (c

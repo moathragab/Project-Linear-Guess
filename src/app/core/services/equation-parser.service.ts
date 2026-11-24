@@ -8,7 +8,6 @@ export class EquationParserService {
     const cleanedLines = lines.map(l => l.trim()).filter(l => l.length > 0);
     if (cleanedLines.length === 0) return null;
 
-    // Detect unique variables (e.g., x, y, z or x1, x2)
     const varSet = new Set<string>();
     const varRegex = /([a-zA-Z]\d*)/g;
 
@@ -29,14 +28,13 @@ export class EquationParserService {
 
     for (const line of cleanedLines) {
       const parts = line.split('=');
-      if (parts.length !== 2) return null; // Invalid equation format
+      if (parts.length !== 2) return null; 
 
       const leftSide = parts[0];
       const rightSide = parseFloat(parts[1].trim()) || 0;
       const rowCoeffs: number[] = new Array(variableNames.length).fill(0);
 
       variableNames.forEach((varName, idx) => {
-        // Regex to extract coefficient for each variable
         const coeffRegex = new RegExp(`([+-]?\\s*\\d*\\.?\\d*)\\s*\\*?\\s*${varName}(?![0-9a-zA-Z])`, 'g');
         const match = coeffRegex.exec(leftSide);
         if (match) {
@@ -47,16 +45,13 @@ export class EquationParserService {
         }
       });
 
-      rowCoeffs.push(rightSide); // Append constant value
+      rowCoeffs.push(rightSide); 
       matrix.push(rowCoeffs);
     }
 
     return { matrix, variableNames };
   }
 
-  /**
-   * Generates text equations from matrix representation
-   */
   matrixToEquations(matrix: number[][], variableNames: string[]): string[] {
     const cols = matrix[0].length;
     return matrix.map(row => {

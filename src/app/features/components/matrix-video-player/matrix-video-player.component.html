@@ -7,7 +7,7 @@
   <!-- STAGE / CANVAS VIEW -->
   <div class="stage-view">
     <div class="dual-display">
-      <!-- Matrix Stage -->
+      <!-- Matrix Stage with Fixed Scroll Bounds -->
       <div class="matrix-box">
         <div class="box-header">
           <span class="box-title">Matrix Representation</span>
@@ -15,24 +15,26 @@
             {{ currentStep.matrix.length }} × {{ currentStep.matrix[0].length }}
           </span>
         </div>
-        <div class="matrix-grid-visual">
-          <div 
-            *ngFor="let row of currentStep.matrix; let i = index" 
-            class="visual-row"
-            [class.row-target]="i === currentStep.highlightRow"
-            [class.row-pivot]="i === currentStep.pivotRow"
-          >
-            <div *ngIf="i === currentStep.highlightRow && currentStep.pivotRow !== undefined" class="svg-arrow-pointer">
-              ➔
-            </div>
-
+        <div class="matrix-scroll-viewport custom-matrix-scroll">
+          <div class="matrix-grid-visual">
             <div 
-              *ngFor="let val of row; let j = index" 
-              class="visual-cell"
-              [class.pivot-circle]="i === currentStep.pivotRow && j === currentStep.pivotCol"
-              [class.constant-val]="j === row.length - 1"
+              *ngFor="let row of currentStep.matrix; let i = index" 
+              class="visual-row"
+              [class.row-target]="i === currentStep.highlightRow"
+              [class.row-pivot]="i === currentStep.pivotRow"
             >
-              {{ val }}
+              <div *ngIf="i === currentStep.highlightRow && currentStep.pivotRow !== undefined" class="svg-arrow-pointer">
+                ➔
+              </div>
+
+              <div 
+                *ngFor="let val of row; let j = index" 
+                class="visual-cell"
+                [class.pivot-circle]="i === currentStep.pivotRow && j === currentStep.pivotCol"
+                [class.constant-val]="j === row.length - 1"
+              >
+                {{ val }}
+              </div>
             </div>
           </div>
         </div>

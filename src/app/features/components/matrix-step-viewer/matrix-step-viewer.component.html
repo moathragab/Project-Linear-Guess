@@ -6,22 +6,24 @@
   </div>
 
   <div class="step-body">
-    <!-- Centered Matrix View -->
+    <!-- Centered Matrix View with Scroll Containment -->
     <div class="matrix-container">
-      <div class="matrix-bracket">
-        <div 
-          *ngFor="let row of step.matrix; let i = index" 
-          class="row-line"
-          [class.row-highlight]="i === step.highlightRow"
-          [class.row-pivot]="i === step.pivotRow"
-        >
-          <span 
-            *ngFor="let val of row; let j = index" 
-            class="val-cell"
-            [class.pivot-element]="i === step.pivotRow && j === step.pivotCol"
+      <div class="matrix-scroll-viewport custom-matrix-scroll">
+        <div class="matrix-bracket">
+          <div 
+            *ngFor="let row of step.matrix; let i = index" 
+            class="row-line"
+            [class.row-highlight]="i === step.highlightRow"
+            [class.row-pivot]="i === step.pivotRow"
           >
-            {{ val }}
-          </span>
+            <span 
+              *ngFor="let val of row; let j = index" 
+              class="val-cell"
+              [class.pivot-element]="i === step.pivotRow && j === step.pivotCol"
+            >
+              {{ val }}
+            </span>
+          </div>
         </div>
       </div>
     </div>

@@ -12,7 +12,11 @@ import { FinalSolution } from '../../../core/models/matrix.model';
 export class MatrixResultComponent {
   @Input() solution!: FinalSolution;
 
-  getObjectKeys(obj: any): string[] {
-    return Object.keys(obj);
+  getOrderedVariableNames(): string[] {
+    if (!this.solution) return [];
+    if (this.solution.variableNames && this.solution.variableNames.length > 0) {
+      return this.solution.variableNames;
+    }
+    return Object.keys(this.solution.variables || {});
   }
 }

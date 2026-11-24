@@ -1,0 +1,268 @@
+{
+  "version": "6.0",
+  "nxVersion": "23.3.0",
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [],
+    "projectFileMap": {
+      "Linear-Guess": [
+        {
+          "file": ".editorconfig",
+          "hash": "4165385352547808172"
+        },
+        {
+          "file": ".gitignore",
+          "hash": "15215259426690684990"
+        },
+        {
+          "file": ".prettierrc",
+          "hash": "11411277661116404690"
+        },
+        {
+          "file": ".vscode/extensions.json",
+          "hash": "14075834438752640208"
+        },
+        {
+          "file": ".vscode/launch.json",
+          "hash": "17038929134016848735"
+        },
+        {
+          "file": ".vscode/settings.json",
+          "hash": "775797076692304378"
+        },
+        {
+          "file": ".vscode/tasks.json",
+          "hash": "1370608409982315224"
+        },
+        {
+          "file": "README.md",
+          "hash": "9964437416708353457"
+        },
+        {
+          "file": "nx.json",
+          "hash": "3563606809465055852"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "16095102507635877675"
+        },
+        {
+          "file": "package.json",
+          "hash": "11866920706427316534",
+          "deps": [
+            "npm:@angular-devkit/core",
+            "npm:@angular-devkit/schematics",
+            "npm:@angular/build",
+            "npm:@angular/cli",
+            "npm:@angular/compiler-cli",
+            "npm:@nx/angular",
+            "npm:@nx/workspace",
+            "npm:@schematics/angular",
+            "npm:jsdom",
+            "npm:nx",
+            "npm:prettier",
+            "npm:typescript",
+            "npm:vitest",
+            "npm:@angular/common",
+            "npm:@angular/compiler",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/platform-browser",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "project.json",
+          "hash": "11273914995324515625"
+        },
+        {
+          "file": "public/favicon.ico",
+          "hash": "3988961587069885523"
+        },
+        {
+          "file": "src/app/app.config.ts",
+          "hash": "17027668981048064263",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/app/app.html",
+          "hash": "2065973919972601337"
+        },
+        {
+          "file": "src/app/app.routes.ts",
+          "hash": "12397496131277534773",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/app/app.scss",
+          "hash": "3885312271983733429"
+        },
+        {
+          "file": "src/app/app.spec.ts",
+          "hash": "6505640575835436684",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/app.ts",
+          "hash": "17624640599784075383",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/core/models/matrix.model.ts",
+          "hash": "11901623379970453340"
+        },
+        {
+          "file": "src/app/core/services/equation-parser.service.ts",
+          "hash": "13384381860610707922",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/core/services/gauss-solver.service.ts",
+          "hash": "6835675322791530417",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/features/components/matrix-input/matrix-input.component.html",
+          "hash": "5992681860467482475"
+        },
+        {
+          "file": "src/app/features/components/matrix-input/matrix-input.component.scss",
+          "hash": "15343477825037967477"
+        },
+        {
+          "file": "src/app/features/components/matrix-input/matrix-input.component.ts",
+          "hash": "17101880667419295352",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/app/features/components/matrix-result/matrix-result.component.html",
+          "hash": "17602372493753856858"
+        },
+        {
+          "file": "src/app/features/components/matrix-result/matrix-result.component.scss",
+          "hash": "13730228120676305537"
+        },
+        {
+          "file": "src/app/features/components/matrix-result/matrix-result.component.ts",
+          "hash": "6003130685013901243",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/app/features/components/matrix-step-viewer/matrix-step-viewer.component.html",
+          "hash": "11260208201546434340"
+        },
+        {
+          "file": "src/app/features/components/matrix-step-viewer/matrix-step-viewer.component.scss",
+          "hash": "4067543741491618617"
+        },
+        {
+          "file": "src/app/features/components/matrix-step-viewer/matrix-step-viewer.component.ts",
+          "hash": "14775818782762747548",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/app/features/components/matrix-video-player/matrix-video-player.component.html",
+          "hash": "15988117906511765422"
+        },
+        {
+          "file": "src/app/features/components/matrix-video-player/matrix-video-player.component.scss",
+          "hash": "14971354935108319727"
+        },
+        {
+          "file": "src/app/features/components/matrix-video-player/matrix-video-player.component.ts",
+          "hash": "15421653027251546732",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/app/features/matrix-solver/component/solvability-moda/solvability-modal.component.html",
+          "hash": "14957580488412328770"
+        },
+        {
+          "file": "src/app/features/matrix-solver/component/solvability-moda/solvability-modal.component.scss",
+          "hash": "18018818460987475095"
+        },
+        {
+          "file": "src/app/features/matrix-solver/component/solvability-moda/solvability-modal.component.ts",
+          "hash": "12013818868574737191",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/app/features/matrix-solver/matrix-solver.component.html",
+          "hash": "12031568580209889629"
+        },
+        {
+          "file": "src/app/features/matrix-solver/matrix-solver.component.scss",
+          "hash": "13078387223000740366"
+        },
+        {
+          "file": "src/app/features/matrix-solver/matrix-solver.component.ts",
+          "hash": "2337795999079415858",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "src/index.html",
+          "hash": "14171597551728102977"
+        },
+        {
+          "file": "src/main.ts",
+          "hash": "15944248449879998907",
+          "deps": [
+            "npm:@angular/platform-browser"
+          ]
+        },
+        {
+          "file": "src/styles.scss",
+          "hash": "12339011064938902689"
+        },
+        {
+          "file": "tsconfig.app.json",
+          "hash": "2688091369495503175"
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "2337361275281218531"
+        },
+        {
+          "file": "tsconfig.spec.json",
+          "hash": "17796778151164975993"
+        }
+      ]
+    }
+  },
+  "externalNodesHash": "11066866784214283911"
+}

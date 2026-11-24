@@ -1,0 +1,42 @@
+<div class="step-card" [class.complete]="step.operationType === 'complete'">
+  <div class="step-header">
+    <span class="step-num">Step {{ step.stepNumber }}</span>
+    <span class="step-desc">{{ step.description }}</span>
+    <span *ngIf="step.formulaDetail" class="formula-badge">{{ step.formulaDetail }}</span>
+  </div>
+
+  <div class="step-body">
+    <!-- Matrix & Equations Dual View -->
+    <div class="grid-dual">
+      <div class="matrix-representation">
+        <div class="matrix-bracket">
+          <div 
+            *ngFor="let row of step.matrix; let i = index" 
+            class="row-line"
+            [class.row-highlight]="i === step.highlightRow"
+            [class.row-pivot]="i === step.pivotRow"
+          >
+            <span 
+              *ngFor="let val of row; let j = index" 
+              class="val-cell"
+              [class.pivot-element]="i === step.pivotRow && j === step.pivotCol"
+            >
+              {{ val }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="equations-representation">
+        <div *ngFor="let eq of step.equations" class="eq-row">
+          {{ eq }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Explanation Paragraph -->
+    <div class="detailed-text">
+      <strong>Explanation:</strong> {{ step.detailedExplanation }}
+    </div>
+  </div>
+</div>

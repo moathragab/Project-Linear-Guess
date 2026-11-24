@@ -1,8 +1,6 @@
 <div class="solver-main-container">
-  <!-- Input Component -->
   <app-matrix-input (solveEvent)="onSolveRequested($event)"></app-matrix-input>
 
-  <!-- Pre-Check Solvability Modal -->
   <app-solvability-modal
     *ngIf="showPreCheckModal && finalSolution"
     [solution]="finalSolution"
@@ -12,36 +10,69 @@
     (closeEvent)="closeModal()"
   ></app-solvability-modal>
 
-  <!-- Output & Solution Display Section -->
   <div *ngIf="solutionSteps.length > 0 && !showPreCheckModal" class="solution-display-wrapper">
-    <!-- View Mode Switcher -->
     <div class="display-mode-bar">
-      <h3>Step-by-Step Solution Breakdown</h3>
+      <h3>Step-by-Step Solution Breakdown (Total {{ solutionSteps.length }} Steps)</h3>
       <div class="toggle-buttons">
-        <button [class.active]="viewMode === 'video'" (click)="viewMode = 'video'">
+        <button type="button" [class.active]="viewMode === 'video'" (click)="viewMode = 'video'">
           🎬 Visual Animated Video Mode
         </button>
-        <button [class.active]="viewMode === 'list'" (click)="viewMode = 'list'">
+        <button type="button" [class.active]="viewMode === 'list'" (click)="viewMode = 'list'">
           📄 Detailed List View
+        </button>
+        <button type="button" class="pdf-tab-btn" [class.active]="viewMode === 'pdf'" (click)="viewMode = 'pdf'">
+          📑 PDF Report & Print
         </button>
       </div>
     </div>
 
-    <!-- Video Mode -->
+    <!-- 1. VIDEO MODE -->
     <app-matrix-video-player 
       *ngIf="viewMode === 'video'" 
       [steps]="solutionSteps"
     ></app-matrix-video-player>
 
-    <!-- List View Mode -->
+    <!-- 2. DETAILED STEP VIEWER MODE -->
     <div *ngIf="viewMode === 'list'" class="steps-list-container">
       <app-matrix-step-viewer 
-        *ngFor="let step of solutionSteps" 
+        *ngFor="let step of paginatedSteps" 
         [step]="step"
       ></app-matrix-step-viewer>
+
+      <div *ngIf="totalPages > 1" class="pagination-bar">
+        <button type="button" (click)="setPage(currentPage - 1)" [disabled]="currentPage === 1">⏮️ Prev</button>
+        <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button type="button" (click)="setPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next ⏭️</button>
+      </div>
     </div>
 
-    <!-- Final Result Showcase -->
+    <!-- 3. PDF EXPORT & PRINT MODE -->
+    <div *ngIf="viewMode === 'pdf'" class="pdf-export-panel" dir="ltr">
+      <div class="pdf-info">
+        <div class="pdf-icon">📑</div>
+        <div>
+          <h4>Academic Vector PDF Solution Report</h4>
+          <p>
+            Generates a high-resolution A4 PDF containing your input equations, system metrics, final outcome,
+            and all <strong>{{ solutionSteps.length }} steps</strong> with variable column headers and color-coded highlights.
+          </p>
+          <p *ngIf="pdfError" style="color: #fca5a5; margin-top: 6px; font-weight: 600;">
+            ⚠️ {{ pdfError }}
+          </p>
+        </div>
+      </div>
+
+      <div class="pdf-action-btns">
+        <button type="button" class="btn-pdf-download" [disabled]="isGeneratingPdf" (click)="exportPdf('download')">
+          {{ isGeneratingPdf ? '⏳ Generating PDF...' : '⬇️ Download PDF File' }}
+        </button>
+        <button type="button" class="btn-pdf-open" [disabled]="isGeneratingPdf" (click)="exportPdf('open')">
+          🖨️ Open & Print PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- FINAL RESULT SUMMARY -->
     <app-matrix-result 
       *ngIf="finalSolution" 
       [solution]="finalSolution"

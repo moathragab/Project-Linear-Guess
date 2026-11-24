@@ -14,7 +14,7 @@ export class MatrixVideoPlayerComponent implements OnInit, OnDestroy {
 
   currentIndex: number = 0;
   isPlaying: boolean = false;
-  playbackSpeed: number = 1000; // السرعة الافتراضية بالمللي ثانية
+  playbackSpeed: number = 1000;
   private timer: any = null;
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -34,9 +34,8 @@ export class MatrixVideoPlayerComponent implements OnInit, OnDestroy {
   }
 
   startAutoplay(): void {
-    this.stopAutoplay(); // إلغاء أي مؤقت سابق لضمان عدم التداخل
+    this.stopAutoplay();
 
-    // إذا وصلنا لنهاية الفريمات وأعدنا التشغيل، نرجع للبداية
     if (this.currentIndex >= this.steps.length - 1) {
       this.currentIndex = 0;
     }
@@ -45,7 +44,7 @@ export class MatrixVideoPlayerComponent implements OnInit, OnDestroy {
     this.timer = setInterval(() => {
       if (this.currentIndex < this.steps.length - 1) {
         this.currentIndex++;
-        this.cdr.detectChanges(); // تحديث الواجهة فوراً عند كل فريم
+        this.cdr.detectChanges();
       } else {
         this.stopAutoplay();
       }
@@ -66,7 +65,6 @@ export class MatrixVideoPlayerComponent implements OnInit, OnDestroy {
       this.currentIndex = Number(this.currentIndex) - 1;
     }
   }
-
   nextStep(): void {
     if (this.currentIndex < this.steps.length - 1) {
       this.currentIndex = Number(this.currentIndex) + 1;
@@ -74,14 +72,12 @@ export class MatrixVideoPlayerComponent implements OnInit, OnDestroy {
   }
 
   seekTo(index: any): void {
-    // تحويل القيمة لرقم صريح لمنع تحول النوع إلى String
     this.currentIndex = Number(index);
     this.cdr.detectChanges();
   }
 
   setSpeed(ms: number): void {
     this.playbackSpeed = Number(ms);
-    // إذا كان الفيديو يعمل بالفعل، نعيد تشغيل المؤقت بالسرعة الجديدة مباشرة
     if (this.isPlaying) {
       this.startAutoplay();
     }

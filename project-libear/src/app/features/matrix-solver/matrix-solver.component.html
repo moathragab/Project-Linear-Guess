@@ -1,0 +1,40 @@
+<div class="solver-main-container">
+  <!-- Input Component -->
+  <app-matrix-input (solveEvent)="onSolveRequested($event)"></app-matrix-input>
+
+  <!-- Output & Solution Display Section -->
+  <div *ngIf="solutionSteps.length > 0" class="solution-display-wrapper">
+    <!-- View Mode Switcher -->
+    <div class="display-mode-bar">
+      <h3>Step-by-Step Solution Breakdown</h3>
+      <div class="toggle-buttons">
+        <button [class.active]="viewMode === 'video'" (click)="viewMode = 'video'">
+          🎬 Visual Animated Video Mode
+        </button>
+        <button [class.active]="viewMode === 'list'" (click)="viewMode = 'list'">
+          📄 Detailed List View
+        </button>
+      </div>
+    </div>
+
+    <!-- Video / Slideshow Mode -->
+    <app-matrix-video-player 
+      *ngIf="viewMode === 'video'" 
+      [steps]="solutionSteps"
+    ></app-matrix-video-player>
+
+    <!-- List View Mode -->
+    <div *ngIf="viewMode === 'list'" class="steps-list-container">
+      <app-matrix-step-viewer 
+        *ngFor="let step of solutionSteps" 
+        [step]="step"
+      ></app-matrix-step-viewer>
+    </div>
+
+    <!-- Final Result Showcase -->
+    <app-matrix-result 
+      *ngIf="finalSolution" 
+      [solution]="finalSolution"
+    ></app-matrix-result>
+  </div>
+</div>

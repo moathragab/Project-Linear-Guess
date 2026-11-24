@@ -14,7 +14,7 @@ import { MatrixStep, FinalSolution } from '../../core/models/matrix.model';
   imports: [
     CommonModule, 
     MatrixInputComponent, 
-    MatrixStepViewerComponent,
+    MatrixStepViewerComponent, 
     MatrixVideoPlayerComponent,
     MatrixResultComponent,
     SolvabilityModalComponent
@@ -41,7 +41,6 @@ export class MatrixSolverComponent {
     this.pendingNumEq = event.matrix.length;
     this.pendingNumVar = event.variableNames.length;
 
-    // فتح نافذة الفحص الذكي المسبق أولاً
     this.showPreCheckModal = true;
   }
 
