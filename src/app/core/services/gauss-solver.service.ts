@@ -16,7 +16,7 @@ export class GaussSolverService {
   public formatNum(num: number): string {
     if (Math.abs(num) < 1e-10) return '0';
     
-    const clean = Math.round((num + Number.EPSILON) * 10000) / 10000;
+    const clean = Math.round((num + Number.EPSILON) * 1000) / 1000;
     if (Math.abs(clean) < 1e-10) return '0';
     if (Number.isInteger(clean)) return clean.toString();
 

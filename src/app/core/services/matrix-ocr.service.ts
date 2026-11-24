@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { EquationParserService } from './equation-parser.service';
 import { LatexMathParserService } from './latex-math-parser.service';
 
 export interface SmartExtractionResult {
@@ -23,8 +24,14 @@ export class OcrExtractionError extends Error {
 export class MatrixOcrService {
   private texifyPipeline: any = null;
 
-  constructor(private latexParser: LatexMathParserService) {}
+  constructor(
+    private parserService: EquationParserService,
+    private latexParser: LatexMathParserService
+  ) {}
 
+  /**
+   * Unified Neural Math-LaTeX AI extraction pipeline for Images, Cropped Canvases, PDFs, and Text files.
+   */
   async extractFromSource(
     source: File | HTMLCanvasElement,
     onProgress?: (percent: number, stage: string) => void
@@ -62,11 +69,15 @@ export class MatrixOcrService {
     );
   }
 
+  /**
+   * Deep Neural Math-to-LaTeX Vision Engine (@huggingface/transformers - Xenova/texify).
+   * Handles printed & handwritten matrices, subscripts (x_1, x_2), fractions, and complex systems.
+   */
   private async extractWithNeuralLatex(
     source: File | Blob | HTMLCanvasElement,
     onProgress?: (percent: number, stage: string) => void
   ): Promise<SmartExtractionResult> {
-    onProgress?.(10, 'Optimizing image lighting & borders...');
+    onProgress?.(10, 'Optimizing image lighting & borders for Neural Math AI...');
     const normalizedDataUrl = await this.prepareImageForNeuralVision(source);
 
     if (!this.texifyPipeline) {
@@ -151,7 +162,7 @@ export class MatrixOcrService {
       return res;
     }
 
-    onProgress?.(45, 'Scanned PDF detected. Rendering page 1...');
+    onProgress?.(45, 'Scanned PDF detected. Rendering page 1 for Neural Math AI...');
     const page1 = await pdfDoc.getPage(1);
     const viewport = page1.getViewport({ scale: 2.4 });
     const canvas = document.createElement('canvas');
@@ -163,6 +174,12 @@ export class MatrixOcrService {
     return this.extractWithNeuralLatex(canvas, onProgress);
   }
 
+  /**
+   * Prepares an image for Vision-Transformer LaTeX recognition:
+   * - Adds a 32px white quiet-zone border
+   * - Auto-inverts dark-mode screenshots to clean dark-on-white ink
+   * - Preserves smooth grayscale anti-aliasing required by Neural Vision encoders
+   */
   private prepareImageForNeuralVision(source: File | Blob | HTMLCanvasElement): Promise<string> {
     return new Promise((resolve, reject) => {
       const renderNormalized = (imgSrc: CanvasImageSource, srcW: number, srcH: number) => {
@@ -190,6 +207,7 @@ export class MatrixOcrService {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
 
+        // Detect dark-mode screenshot
         let lumSum = 0;
         for (let i = 0; i < data.length; i += 16) {
           lumSum += 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
@@ -228,33 +246,30 @@ export class MatrixOcrService {
   }
 
   /**
-   * Parses LaTeX or user-edited linear equations / matrix rows into a validated system.
-   * Reads every line, every modified term, and any newly added variables directly.
+   * Parses LaTeX or manually edited math text into validated Linear Equations or an Augmented Matrix.
    */
   parseExtractedMathText(rawText: string, confidence: number = 97): SmartExtractionResult {
-    // 1. Parse LaTeX if present (from initial AI extraction)
-    if (rawText.includes('\\begin') || rawText.includes('\\frac') || rawText.includes('\\dfrac')) {
-      const latexRes = this.latexParser.parseLatexToSystem(rawText);
-      if (latexRes) {
-        this.enforceStrictMatrixValidity(latexRes.matrix, latexRes.cleanDisplayText);
-        const eqText = this.formatEquationsFromMatrix(latexRes.matrix, latexRes.variableNames);
-        return {
-          detectedType: latexRes.detectedType,
-          matrix: latexRes.matrix,
-          variableNames: latexRes.variableNames,
-          equationsText: eqText,
-          rawCleanedText: latexRes.detectedType === 'equations' ? eqText : latexRes.cleanDisplayText,
-          confidence
-        };
-      }
+    // 1. Parse LaTeX environments & expressions first
+    const latexRes = this.latexParser.parseLatexToSystem(rawText);
+    if (latexRes) {
+      this.enforceStrictMatrixValidity(latexRes.matrix, latexRes.cleanDisplayText);
+      return {
+        detectedType: latexRes.detectedType,
+        matrix: latexRes.matrix,
+        variableNames: latexRes.variableNames,
+        equationsText: latexRes.equationsText,
+        rawCleanedText: latexRes.cleanDisplayText,
+        confidence
+      };
     }
 
+    // 2. Parse plain linear equations or augmented matrix rows
     const sanitizedLines = this.sanitizeMathLines(rawText);
     const fallbackEditableText = sanitizedLines.join('\n') || rawText.trim();
 
     if (sanitizedLines.length === 0) {
       throw new OcrExtractionError(
-        'No readable equations or numbers detected. Edit below and click "Apply & Re-Parse".',
+        'No readable equations or matrix rows were detected. Crop tightly around the math area and try again.',
         fallbackEditableText
       );
     }
@@ -262,25 +277,35 @@ export class MatrixOcrService {
     const hasEquals = sanitizedLines.some(line => line.includes('='));
     const hasVariables = sanitizedLines.some(line => /[a-zA-Z]/.test(line));
 
-    // 2. Direct Linear Equations Parser (reads all user edits & added variables)
     if (hasEquals || hasVariables) {
-      const normalizedLines = sanitizedLines.map(line => this.normalizeEquationSyntax(line));
-      const parsed = this.parseEquationsDirectly(normalizedLines, rawText);
-      this.enforceStrictMatrixValidity(parsed.matrix, rawText);
+      const normalizedEqLines = sanitizedLines.map(line => this.normalizeEquationSyntax(line));
+      const parsed = this.parserService.parseEquations(normalizedEqLines);
 
-      const formattedEqs = this.formatEquationsFromMatrix(parsed.matrix, parsed.variableNames);
+      if (parsed && parsed.matrix.length > 0 && parsed.variableNames.length > 0) {
+        this.enforceStrictMatrixValidity(parsed.matrix, normalizedEqLines.join('\n'));
 
-      return {
-        detectedType: 'equations',
-        matrix: parsed.matrix,
-        variableNames: parsed.variableNames,
-        equationsText: formattedEqs,
-        rawCleanedText: formattedEqs,
-        confidence
-      };
+        const cleanEqText = this.parserService
+          .matrixToEquations(parsed.matrix, parsed.variableNames)
+          .join('\n');
+
+        return {
+          detectedType: 'equations',
+          matrix: parsed.matrix,
+          variableNames: parsed.variableNames,
+          equationsText: cleanEqText,
+          rawCleanedText: cleanEqText,
+          confidence
+        };
+      }
+
+      if (hasEquals) {
+        throw new OcrExtractionError(
+          'Detected equations but could not parse all terms. Correct any symbol below and click "Apply & Re-Parse".',
+          normalizedEqLines.join('\n')
+        );
+      }
     }
 
-    // 3. Augmented Matrix Parser
     const matrixRows = this.parseMatrixRows(sanitizedLines);
     if (matrixRows.length > 0) {
       const rawMatrixText = matrixRows.map(r => r.join('  ')).join('\n');
@@ -288,7 +313,9 @@ export class MatrixOcrService {
 
       const numVars = matrixRows[0].length - 1;
       const variableNames = Array.from({ length: numVars }, (_, i) => `x${i + 1}`);
-      const equationsText = this.formatEquationsFromMatrix(matrixRows, variableNames);
+      const equationsText = this.parserService
+        .matrixToEquations(matrixRows, variableNames)
+        .join('\n');
 
       return {
         detectedType: 'matrix',
@@ -304,194 +331,6 @@ export class MatrixOcrService {
       'Could not structure extracted text into valid equations or a matrix. Edit below and click "Apply & Re-Parse".',
       fallbackEditableText
     );
-  }
-
-  /**
-   * Parses all linear equation lines directly, discovering every variable across all lines
-   * (including newly added variables like z, w, x3, etc.) and supporting terms on both sides of '='.
-   */
-  private parseEquationsDirectly(
-    lines: string[],
-    originalRawText: string
-  ): { matrix: number[][]; variableNames: string[] } {
-    const equationsData: { coeffs: Map<string, number>; constant: number }[] = [];
-    const allVariables = new Set<string>();
-
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      const parts = line.split('=');
-
-      if (parts.length !== 2 || !parts[0].trim() || !parts[1].trim()) {
-        throw new OcrExtractionError(
-          `Equation error on Line ${i + 1} ("${line}"): Each equation must contain "=" with both sides filled (e.g., 2x + y = 5).`,
-          originalRawText
-        );
-      }
-
-      const coeffs = new Map<string, number>();
-      let rhsConstant = 0;
-
-      // Left side: variables keep their sign, constants move to RHS with inverted sign
-      this.extractTermsFromSide(parts[0], 1, i + 1, line, originalRawText, coeffs, c => {
-        rhsConstant -= c;
-      });
-
-      // Right side: variables move to LHS with inverted sign, constants keep their sign
-      this.extractTermsFromSide(parts[1], -1, i + 1, line, originalRawText, coeffs, c => {
-        rhsConstant += c;
-      });
-
-      if (coeffs.size === 0) {
-        throw new OcrExtractionError(
-          `No variables found on Line ${i + 1} ("${line}"). Add at least one variable (e.g., x, y, z, x1).`,
-          originalRawText
-        );
-      }
-
-      coeffs.forEach((_, varName) => allVariables.add(varName));
-      equationsData.push({ coeffs, constant: rhsConstant });
-    }
-
-    const variableNames = this.sortVariableNames(Array.from(allVariables));
-
-    const matrix: number[][] = equationsData.map(eq => {
-      const row = variableNames.map(v => {
-        const val = eq.coeffs.get(v) ?? 0;
-        return Math.abs(val) < 1e-12 ? 0 : Math.round((val + Number.EPSILON) * 1e8) / 1e8;
-      });
-      const b = Math.abs(eq.constant) < 1e-12 ? 0 : Math.round((eq.constant + Number.EPSILON) * 1e8) / 1e8;
-      row.push(b);
-      return row;
-    });
-
-    return { matrix, variableNames };
-  }
-
-  private extractTermsFromSide(
-    sideExpr: string,
-    signMultiplier: 1 | -1,
-    lineNum: number,
-    fullLine: string,
-    originalRawText: string,
-    coeffs: Map<string, number>,
-    onConstant: (val: number) => void
-  ): void {
-    const cleaned = sideExpr
-      .replace(/\*/g, '')
-      .replace(/([+-])\s+/g, '$1')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    if (!cleaned || cleaned === '0') return;
-
-    const tokens = cleaned.split(/(?=[+-])/).map(t => t.trim()).filter(Boolean);
-
-    for (const token of tokens) {
-      if (token === '+' || token === '-') {
-        throw new OcrExtractionError(
-          `Incomplete operator "${token}" on Line ${lineNum} ("${fullLine}").`,
-          originalRawText
-        );
-      }
-
-      // Variable divided by constant, e.g., -x/2 or 3x1/4
-      const varDivMatch = token.match(/^([+-]?(?:\d+(?:\.\d+)?)?)([a-zA-Z][a-zA-Z0-9]*)\s*\/\s*(\d+(?:\.\d+)?)$/);
-      if (varDivMatch) {
-        const num = varDivMatch[1] === '' || varDivMatch[1] === '+' ? 1 : varDivMatch[1] === '-' ? -1 : Number(varDivMatch[1]);
-        const den = Number(varDivMatch[3]);
-        if (den === 0) {
-          throw new OcrExtractionError(`Division by zero on Line ${lineNum}.`, originalRawText);
-        }
-        const varName = varDivMatch[2].toLowerCase();
-        coeffs.set(varName, (coeffs.get(varName) ?? 0) + (num / den) * signMultiplier);
-        continue;
-      }
-
-      // Variable term, e.g., 2x, -y, +3z, 0.5x1, 1/2 x
-      const varMatch = token.match(/^([+-]?(?:\d+(?:\.\d+)?(?:\/\d+(?:\.\d+)?)?)?)\s*([a-zA-Z][a-zA-Z0-9]*)$/);
-      if (varMatch) {
-        const coeff = this.parseNumberOrFraction(varMatch[1]);
-        if (coeff === null) {
-          throw new OcrExtractionError(
-            `Invalid coefficient "${varMatch[1]}" on Line ${lineNum} ("${fullLine}").`,
-            originalRawText
-          );
-        }
-        const varName = varMatch[2].toLowerCase();
-        coeffs.set(varName, (coeffs.get(varName) ?? 0) + coeff * signMultiplier);
-        continue;
-      }
-
-      // Pure constant number or fraction
-      const constVal = this.parseNumberOrFraction(token);
-      if (constVal !== null) {
-        onConstant(constVal);
-        continue;
-      }
-
-      throw new OcrExtractionError(
-        `Unrecognized term "${token}" on Line ${lineNum} ("${fullLine}").`,
-        originalRawText
-      );
-    }
-  }
-
-  private parseNumberOrFraction(str: string): number | null {
-    const s = str.trim();
-    if (s === '' || s === '+') return 1;
-    if (s === '-') return -1;
-
-    if (s.includes('/')) {
-      const [numS, denS] = s.split('/');
-      const num = Number(numS);
-      const den = Number(denS);
-      if (!Number.isFinite(num) || !Number.isFinite(den) || den === 0) return null;
-      return num / den;
-    }
-
-    if (!/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(s)) return null;
-    const n = Number(s);
-    return Number.isFinite(n) ? n : null;
-  }
-
-  private sortVariableNames(vars: string[]): string[] {
-    if (vars.every(v => /^[a-z]\d+$/.test(v))) {
-      return [...vars].sort((a, b) => {
-        const cmp = a[0].localeCompare(b[0]);
-        return cmp !== 0 ? cmp : Number(a.slice(1)) - Number(b.slice(1));
-      });
-    }
-
-    const standardOrder = ['x', 'y', 'z', 'w', 'u', 'v'];
-    if (vars.every(v => standardOrder.includes(v))) {
-      return [...vars].sort((a, b) => standardOrder.indexOf(a) - standardOrder.indexOf(b));
-    }
-
-    return vars;
-  }
-
-  formatEquationsFromMatrix(matrix: number[][], variableNames: string[]): string {
-    return matrix
-      .map(row => {
-        const terms: string[] = [];
-        for (let j = 0; j < variableNames.length; j++) {
-          const coeff = row[j] ?? 0;
-          if (Math.abs(coeff) < 1e-12) continue;
-          const v = variableNames[j];
-          const absVal = Math.abs(coeff);
-          const coeffStr = absVal === 1 ? '' : String(absVal);
-
-          if (terms.length === 0) {
-            terms.push(coeff < 0 ? `-${coeffStr}${v}` : `${coeffStr}${v}`);
-          } else {
-            terms.push(coeff < 0 ? `- ${coeffStr}${v}` : `+ ${coeffStr}${v}`);
-          }
-        }
-        const lhs = terms.length > 0 ? terms.join(' ') : '0';
-        const rhs = row[variableNames.length] ?? 0;
-        return `${lhs} = ${rhs}`;
-      })
-      .join('\n');
   }
 
   private enforceStrictMatrixValidity(matrix: number[][], rawText: string): void {
@@ -538,10 +377,15 @@ export class MatrixOcrService {
       .replace(/[–—−‐]/g, '-')
       .replace(/×/g, 'x')
       .replace(/==|:=|≈/g, '=')
+      .replace(/(-?\d+)\s*\/\s*(\d+)/g, (_, num, den) => {
+        const d = Number(den);
+        if (d === 0) return num;
+        return String(Math.round((Number(num) / d) * 10000) / 10000);
+      })
       .split(/\r?\n/)
       .map(line =>
         line
-          .replace(/^[\[\(\{\|]+|[\]\)\}\|,;:]+$/g, '')
+          .replace(/^[\[\(\{\|]+|[\]\)\}\|]+$/g, '')
           .replace(/\|/g, ' ')
           .replace(/\s+/g, ' ')
           .trim()
@@ -564,10 +408,6 @@ export class MatrixOcrService {
 
     for (const line of lines) {
       const numericLine = line
-        .replace(/(-?\d+)\s*\/\s*(\d+)/g, (_, num, den) => {
-          const d = Number(den);
-          return d === 0 ? num : String(Number(num) / d);
-        })
         .replace(/-\s+(\d)/g, '-$1')
         .replace(/(\d)\s*\.\s*(\d)/g, '$1.$2')
         .replace(/(\d),(\d)/g, '$1.$2')

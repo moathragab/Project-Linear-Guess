@@ -1,104 +1,178 @@
 .step-card {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   background: #1e293b;
   border: 1px solid #334155;
   border-radius: 12px;
   padding: 16px 20px;
   margin-bottom: 16px;
+  direction: ltr;
+  text-align: left;
 
-  &.complete { border-color: #10b981; }
+  &.complete {
+    border-color: #10b981;
+  }
 
   .step-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
 
     .step-num {
       background: #334155;
-      color: #fff;
-      padding: 2px 8px;
+      color: #ffffff;
+      padding: 3px 10px;
       border-radius: 6px;
       font-weight: bold;
       font-size: 0.85rem;
     }
 
-    .step-desc { color: #38bdf8; font-weight: bold; }
+    .step-desc {
+      color: #38bdf8;
+      font-weight: bold;
+    }
+
     .formula-badge {
       margin-left: auto;
       background: #0f172a;
+      border: 1px solid #334155;
       color: #f43f5e;
       padding: 4px 10px;
       border-radius: 6px;
-      font-family: monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-weight: bold;
+      font-size: 0.86rem;
+    }
+  }
+
+  .op-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    .legend-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+
+      &.swap { background: rgba(245, 158, 11, 0.16); border: 1px solid #f59e0b; color: #fbbf24; }
+      &.source { background: rgba(6, 182, 212, 0.16); border: 1px solid #06b6d4; color: #22d3ee; }
+      &.target { background: rgba(168, 85, 247, 0.18); border: 1px solid #a855f7; color: #d8b4fe; }
+      &.col { background: rgba(148, 163, 184, 0.14); border: 1px solid #64748b; color: #e2e8f0; }
     }
   }
 
   .step-body {
     .matrix-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 16px;
+      width: 100%;
+      max-width: 100%;
+      max-height: 360px;
+      overflow: auto;
+      box-sizing: border-box;
+      margin-bottom: 14px;
+      padding: 12px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      direction: ltr;
+      scrollbar-width: thin;
+      scrollbar-color: #475569 #0f172a;
 
-      .matrix-scroll-viewport {
-        max-height: 320px;
-        max-width: 100%;
-        overflow: auto;
-        border-radius: 8px;
-        border: 1px solid #334155;
-        padding: 12px 18px;
-        background: #0f172a;
+      .matrix-table {
+        display: table;
+        margin: 0 auto;
+        border-collapse: separate;
+        border-spacing: 6px 6px;
+        direction: ltr;
+      }
 
-        &::-webkit-scrollbar {
-          width: 6px;
-          height: 6px;
+      .row-line {
+        display: table-row;
+
+        &.role-swap .val-cell {
+          background: rgba(245, 158, 11, 0.15);
+          border-color: #f59e0b;
+          color: #fef3c7;
         }
-        &::-webkit-scrollbar-track { background: #0f172a; }
-        &::-webkit-scrollbar-thumb {
-          background: #334155;
-          border-radius: 3px;
-          &:hover { background: #38bdf8; }
+
+        &.role-source .val-cell {
+          background: rgba(6, 182, 212, 0.15);
+          border-color: #06b6d4;
+          color: #cffafe;
+        }
+
+        &.role-target .val-cell {
+          background: rgba(168, 85, 247, 0.16);
+          border-color: #a855f7;
+          color: #f3e8ff;
         }
       }
 
-      .matrix-bracket {
-        display: inline-flex;
-        flex-direction: column;
-        gap: 6px;
-        position: relative;
-        padding: 6px 16px;
+      .row-label {
+        display: table-cell;
+        vertical-align: middle;
+        min-width: 46px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        text-align: center;
+        white-space: nowrap;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #64748b;
 
-        &::before, &::after {
-          content: '';
-          position: absolute;
-          top: 0; bottom: 0;
-          width: 8px;
-          border: 2px solid #64748b;
+        &.lbl-swap { color: #fbbf24; background: rgba(245, 158, 11, 0.15); }
+        &.lbl-source { color: #22d3ee; background: rgba(6, 182, 212, 0.15); }
+        &.lbl-target { color: #d8b4fe; background: rgba(168, 85, 247, 0.18); }
+      }
+
+      .aug-sep {
+        display: table-cell;
+        width: 2px;
+        min-width: 2px;
+        padding: 0;
+        border-left: 2px dashed #10b981;
+      }
+
+      .val-cell {
+        display: table-cell;
+        vertical-align: middle;
+        min-width: 76px;
+        height: 36px;
+        padding: 5px 12px;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 6px;
+        text-align: center;
+        white-space: nowrap;
+        font-family: 'JetBrains Mono', monospace;
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #f8fafc;
+
+        &.const-cell {
+          color: #34d399;
         }
-        &::before { left: 0; border-right: none; border-radius: 4px 0 0 4px; }
-        &::after { right: 0; border-left: none; border-radius: 0 4px 4px 0; }
 
-        .row-line {
-          display: flex;
-          gap: 12px;
-          padding: 2px 6px;
-          border-radius: 4px;
-          &.row-highlight { background: rgba(239, 68, 68, 0.15); }
-          &.row-pivot { background: rgba(16, 185, 129, 0.15); }
+        &.active-col {
+          box-shadow: inset 0 0 0 1px rgba(250, 204, 21, 0.55);
+        }
 
-          .val-cell {
-            min-width: 50px;
-            text-align: center;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: bold;
-            color: #f8fafc;
+        &.pivot-element {
+          border: 2px solid #22d3ee;
+          color: #67e8f9;
+        }
 
-            &.pivot-element {
-              color: #10b981;
-              text-decoration: underline;
-            }
-          }
+        &.target-element {
+          border: 2px solid #c084fc;
+          color: #e9d5ff;
         }
       }
     }
@@ -109,8 +183,11 @@
       border-radius: 8px;
       color: #cbd5e1;
       font-size: 0.9rem;
-      line-height: 1.4;
-      strong { color: #38bdf8; }
+      line-height: 1.5;
+
+      strong {
+        color: #38bdf8;
+      }
     }
   }
 }

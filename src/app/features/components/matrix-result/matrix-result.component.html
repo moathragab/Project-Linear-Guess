@@ -8,7 +8,7 @@
 
   <p class="status-msg" dir="ltr">{{ solution.statusMessage }}</p>
 
-  <!-- VARIABLE EQUATIONS (UNIQUE & INFINITE SOLUTIONS, STRICTLY LEFT-TO-RIGHT) -->
+  <!-- VARIABLE EQUATIONS (UNIQUE & INFINITE SOLUTIONS, LEFT-TO-RIGHT) -->
   <div
     *ngIf="solution.status === 'unique' || solution.status === 'infinite'"
     class="variables-grid"
@@ -19,29 +19,25 @@
       class="var-card"
       dir="ltr"
     >
-      <span class="var-name" dir="ltr">{{ varName }}</span>
+      <span class="var-name">{{ varName }}</span>
       <span class="var-equals">=</span>
-      <span class="var-value" dir="ltr">{{ solution.variables[varName] }}</span>
+      <span class="var-value">{{ solution.variables[varName] }}</span>
     </div>
   </div>
 
-  <!-- INCONSISTENT SYSTEM NOTICE (NO SOLUTION) -->
-  <div *ngIf="solution.status === 'no-solution'" class="no-solution-box" dir="ltr">
-    Row reduction resulted in a contradictory equation of the form <code>0 = c</code> (<code>c ≠ 0</code>).
-  </div>
-
-  <!-- FINAL MATRIX SUMMARY SHOWCASE -->
+  <!-- FINAL MATRIX SUMMARY SHOWCASE (FIXED TABULAR COLUMN ALIGNMENT) -->
   <div *ngIf="solution.finalMatrix && solution.finalMatrix.length > 0" class="final-matrix-showcase" dir="ltr">
     <h4>Final Matrix Form:</h4>
     <div class="matrix-display" dir="ltr">
-      <div *ngFor="let row of solution.finalMatrix" class="matrix-row" dir="ltr">
-        <span
-          *ngFor="let cell of row; let j = index"
-          class="cell"
-          [class.last]="j === row.length - 1"
-        >
-          {{ cell }}
-        </span>
+      <div class="matrix-table" dir="ltr">
+        <div *ngFor="let row of solution.finalMatrix" class="matrix-row" dir="ltr">
+          <ng-container *ngFor="let cell of row; let j = index">
+            <span *ngIf="j === row.length - 1" class="aug-divider" aria-hidden="true"></span>
+            <span class="cell" [class.last]="j === row.length - 1">
+              {{ cell }}
+            </span>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>

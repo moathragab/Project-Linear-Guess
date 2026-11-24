@@ -113,7 +113,7 @@ export class MatrixInputComponent implements OnInit {
       const matrixData: number[][] = this.grid.value.map((row: any[]) =>
         row.map(cell => Number(cell) || 0)
       );
-      const vars = Array.from({ length: this.cols - 1 }, (_, i) => x`${i + 1}`);
+      const vars = Array.from({ length: this.cols - 1 }, (_, i) => `x${i + 1}`);
       this.solveEvent.emit({ matrix: matrixData, rref: toRREF, variableNames: vars });
     } else {
       const parsed = this.parserService.parseEquations(this.textEquations.split('\n'));

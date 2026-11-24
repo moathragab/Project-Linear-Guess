@@ -1,35 +1,74 @@
-<div class="step-card" [class.complete]="step.operationType === 'complete'">
-  <div class="step-header">
+<div class="step-card" [class.complete]="getNormalizedOp(step) === 'complete'" dir="ltr">
+  <div class="step-header" dir="ltr">
     <span class="step-num">Step {{ step.stepNumber }}</span>
     <span class="step-desc">{{ step.description }}</span>
-    <span *ngIf="step.formulaDetail" class="formula-badge">{{ step.formulaDetail }}</span>
+    <span *ngIf="step.formulaDetail" class="formula-badge" dir="ltr">{{ step.formulaDetail }}</span>
   </div>
 
-  <div class="step-body">
-    <!-- Centered Matrix View with Scroll Containment -->
-    <div class="matrix-container">
-      <div class="matrix-scroll-viewport custom-matrix-scroll">
-        <div class="matrix-bracket">
-          <div 
-            *ngFor="let row of step.matrix; let i = index" 
-            class="row-line"
-            [class.row-highlight]="i === step.highlightRow"
-            [class.row-pivot]="i === step.pivotRow"
-          >
-            <span 
-              *ngFor="let val of row; let j = index" 
+  <!-- Smart Color Legend for Row & Column Operations -->
+  <div *ngIf="getNormalizedOp(step) === 'swap'" class="op-legend" dir="ltr">
+    <span class="legend-pill swap">
+      ⇄ Swapped Rows: R{{ (getRefRow(step) ?? 0) + 1 }} ↔ R{{ (getTargetRow(step) ?? 0) + 1 }}
+    </span>
+  </div>
+
+  <div *ngIf="getNormalizedOp(step) === 'scale'" class="op-legend" dir="ltr">
+    <span class="legend-pill source">
+      ★ Scaled Row: R{{ (getRefRow(step) ?? 0) + 1 }}
+    </span>
+    <span *ngIf="getActiveCol(step) !== undefined" class="legend-pill col">
+      ↓ Pivot Column: C{{ (getActiveCol(step) ?? 0) + 1 }}
+    </span>
+  </div>
+
+  <div *ngIf="getNormalizedOp(step) === 'eliminate'" class="op-legend" dir="ltr">
+    <span class="legend-pill source">
+      ★ Reference Row: R{{ (getRefRow(step) ?? 0) + 1 }}
+    </span>
+    <span class="legend-pill target">
+      ✎ Target Row: R{{ (getTargetRow(step) ?? 0) + 1 }}
+    </span>
+    <span *ngIf="getActiveCol(step) !== undefined" class="legend-pill col">
+      ↓ Active Column: C{{ (getActiveCol(step) ?? 0) + 1 }}
+    </span>
+  </div>
+
+  <div class="step-body" dir="ltr">
+    <!-- Strict Tabular Matrix View (Zero Column/Row Overlap) -->
+    <div class="matrix-container" dir="ltr">
+      <div class="matrix-table" dir="ltr">
+        <div
+          *ngFor="let row of step.matrix; let i = index"
+          class="row-line"
+          [ngClass]="'role-' + getRowRole(step, i)"
+          dir="ltr"
+        >
+          <span class="row-label" [ngClass]="'lbl-' + getRowRole(step, i)">
+            R{{ i + 1 }}
+            <ng-container *ngIf="getRowRole(step, i) === 'swap'">⇄</ng-container>
+            <ng-container *ngIf="getRowRole(step, i) === 'source'">★</ng-container>
+            <ng-container *ngIf="getRowRole(step, i) === 'target'">✎</ng-container>
+          </span>
+
+          <ng-container *ngFor="let val of row; let j = index">
+            <span *ngIf="j === row.length - 1" class="aug-sep" aria-hidden="true"></span>
+            <span
               class="val-cell"
-              [class.pivot-element]="i === step.pivotRow && j === step.pivotCol"
+              [class.const-cell]="j === row.length - 1"
+              [class.active-col]="isActiveCol(step, j)"
+              [class.pivot-element]="isPivotCell(step, i, j)"
+              [class.target-element]="isTargetCell(step, i, j)"
+              [attr.title]="val"
             >
-              {{ val }}
+              {{ formatVal(val) }}
             </span>
-          </div>
+          </ng-container>
         </div>
       </div>
     </div>
 
     <!-- Detailed Explanation Paragraph -->
-    <div class="detailed-text">
+    <div class="detailed-text" dir="ltr">
       <strong>Explanation:</strong> {{ step.detailedExplanation }}
     </div>
   </div>

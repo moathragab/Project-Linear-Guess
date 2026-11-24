@@ -1,38 +1,62 @@
 {
-  "hash": "e2d4ccf7",
-  "configHash": "337f793d",
-  "lockfileHash": "befe7460",
-  "browserHash": "d71e70c2",
+  "hash": "09ba88a3",
+  "configHash": "ecfa4367",
+  "lockfileHash": "a9cb7f10",
+  "browserHash": "e26aeb60",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "1341f580",
+      "fileHash": "d1b72022",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "d5e9a999",
+      "fileHash": "7bc7d478",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "5214b501",
+      "fileHash": "a7d64617",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "fcff49de",
+      "fileHash": "dfc0025a",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "d9a6d905",
+      "fileHash": "1706d29b",
       "needsInterop": false
+    },
+    "@huggingface/transformers": {
+      "src": "../../../../../../node_modules/@huggingface/transformers/dist/transformers.web.js",
+      "file": "@huggingface_transformers.js",
+      "fileHash": "63647f73",
+      "needsInterop": false
+    },
+    "pdfjs-dist": {
+      "src": "../../../../../../node_modules/pdfjs-dist/build/pdf.mjs",
+      "file": "pdfjs-dist.js",
+      "fileHash": "ef54d8d5",
+      "needsInterop": false
+    },
+    "pdfmake/build/pdfmake": {
+      "src": "../../../../../../node_modules/pdfmake/build/pdfmake.js",
+      "file": "pdfmake_build_pdfmake.js",
+      "fileHash": "749b7a85",
+      "needsInterop": true
+    },
+    "pdfmake/build/vfs_fonts": {
+      "src": "../../../../../../node_modules/pdfmake/build/vfs_fonts.js",
+      "file": "pdfmake_build_vfs___fonts.js",
+      "fileHash": "24692285",
+      "needsInterop": true
     }
   },
   "chunks": {
@@ -54,6 +78,10 @@
     },
     "platform-browser-DcGrZGxQ": {
       "file": "platform-browser-DcGrZGxQ.js",
+      "isDynamicEntry": false
+    },
+    "rolldown-runtime-xMd7gp_u": {
+      "file": "rolldown-runtime-xMd7gp_u.js",
       "isDynamicEntry": false
     }
   }

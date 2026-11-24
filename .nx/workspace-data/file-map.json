@@ -13,7 +13,7 @@
         },
         {
           "file": ".gitignore",
-          "hash": "15215259426690684990"
+          "hash": "2920293460143776131"
         },
         {
           "file": ".prettierrc",
@@ -25,11 +25,11 @@
         },
         {
           "file": ".vscode/launch.json",
-          "hash": "17038929134016848735"
+          "hash": "14423258199029323965"
         },
         {
           "file": ".vscode/settings.json",
-          "hash": "775797076692304378"
+          "hash": "8748272291889276973"
         },
         {
           "file": ".vscode/tasks.json",
@@ -40,16 +40,24 @@
           "hash": "9964437416708353457"
         },
         {
+          "file": "github/workflows/deploy.yml",
+          "hash": "8264030736927581875"
+        },
+        {
+          "file": "netlify.toml",
+          "hash": "697571742980526169"
+        },
+        {
           "file": "nx.json",
           "hash": "3563606809465055852"
         },
         {
           "file": "package-lock.json",
-          "hash": "16095102507635877675"
+          "hash": "954137000700736133"
         },
         {
           "file": "package.json",
-          "hash": "11866920706427316534",
+          "hash": "11924613977372177226",
           "deps": [
             "npm:@angular-devkit/core",
             "npm:@angular-devkit/schematics",
@@ -59,6 +67,7 @@
             "npm:@nx/angular",
             "npm:@nx/workspace",
             "npm:@schematics/angular",
+            "npm:@types/pdfmake",
             "npm:jsdom",
             "npm:nx",
             "npm:prettier",
@@ -70,13 +79,135 @@
             "npm:@angular/forms",
             "npm:@angular/platform-browser",
             "npm:@angular/router",
+            "npm:@huggingface/transformers",
+            "npm:pdfjs-dist",
+            "npm:pdfmake",
             "npm:rxjs",
+            "npm:tesseract.js",
             "npm:tslib"
           ]
         },
         {
+          "file": "project-libear/src/app/app.scss",
+          "hash": "267370773467779996"
+        },
+        {
+          "file": "project-libear/src/app/app.ts",
+          "hash": "12164650227095427518",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "project-libear/src/app/core/models/matrix.model.ts",
+          "hash": "12683802129710826289"
+        },
+        {
+          "file": "project-libear/src/app/core/services/equation-parser.service.ts",
+          "hash": "8770888266619572973",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "project-libear/src/app/core/services/gauss-solver.service.ts",
+          "hash": "13964475657300807845",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-input/matrix-input.component.html",
+          "hash": "6842134848188889249"
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-input/matrix-input.component.scss",
+          "hash": "7242958310824968698"
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-input/matrix-input.component.ts",
+          "hash": "6277821497788519556",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-result/matrix-result.component.html",
+          "hash": "3712166832360447828"
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-result/matrix-result.component.scss",
+          "hash": "4782189637656400954"
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-result/matrix-result.component.ts",
+          "hash": "12712105223671326679",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-step-viewer/matrix-step-viewer.component.html",
+          "hash": "106973884571941503"
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-step-viewer/matrix-step-viewer.component.scss",
+          "hash": "5475476374706510893"
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-step-viewer/matrix-step-viewer.component.ts",
+          "hash": "1320777139070137466",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-video-player/matrix-video-player.component.html",
+          "hash": "12000088211391546091"
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-video-player/matrix-video-player.component.scss",
+          "hash": "11599324394313243541"
+        },
+        {
+          "file": "project-libear/src/app/features/components/matrix-video-player/matrix-video-player.component.ts",
+          "hash": "11225407825245770663",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "project-libear/src/app/features/matrix-solver/matrix-solver.component.html",
+          "hash": "5166365158732554995"
+        },
+        {
+          "file": "project-libear/src/app/features/matrix-solver/matrix-solver.component.scss",
+          "hash": "7734217294150613404"
+        },
+        {
+          "file": "project-libear/src/app/features/matrix-solver/matrix-solver.component.ts",
+          "hash": "8006240640760798414",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common"
+          ]
+        },
+        {
+          "file": "project-linear/src/app/app.html",
+          "hash": "884588955653020540"
+        },
+        {
           "file": "project.json",
-          "hash": "11273914995324515625"
+          "hash": "14549782261338411144"
+        },
+        {
+          "file": "public/_redirects",
+          "hash": "8738055346875944353"
         },
         {
           "file": "public/favicon.ico",
@@ -92,7 +223,7 @@
         },
         {
           "file": "src/app/app.html",
-          "hash": "2065973919972601337"
+          "hash": "884588955653020540"
         },
         {
           "file": "src/app/app.routes.ts",
@@ -103,7 +234,7 @@
         },
         {
           "file": "src/app/app.scss",
-          "hash": "3885312271983733429"
+          "hash": "267370773467779996"
         },
         {
           "file": "src/app/app.spec.ts",
@@ -114,40 +245,73 @@
         },
         {
           "file": "src/app/app.ts",
-          "hash": "17624640599784075383",
+          "hash": "12164650227095427518",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "src/app/core/models/matrix.model.ts",
-          "hash": "11901623379970453340"
+          "hash": "9358156402897866353"
         },
         {
           "file": "src/app/core/services/equation-parser.service.ts",
-          "hash": "13384381860610707922",
+          "hash": "5866360164053345527",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "src/app/core/services/gauss-solver.service.ts",
-          "hash": "6835675322791530417",
+          "hash": "13577337281977434136",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
+          "file": "src/app/core/services/latex-math-parser.service.ts",
+          "hash": "13055254052456546652",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/core/services/matrix-ocr.service.ts",
+          "hash": "8082670180029656275",
+          "deps": [
+            "npm:@angular/core",
+            [
+              "npm:@huggingface/transformers",
+              "dynamic"
+            ],
+            [
+              "npm:pdfjs-dist",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "src/app/core/services/matrix-pdf.service.ts",
+          "hash": "13346846861050159496",
+          "deps": [
+            "npm:@angular/core",
+            [
+              "npm:pdfmake",
+              "dynamic"
+            ]
+          ]
+        },
+        {
           "file": "src/app/features/components/matrix-input/matrix-input.component.html",
-          "hash": "5992681860467482475"
+          "hash": "12982172058116110978"
         },
         {
           "file": "src/app/features/components/matrix-input/matrix-input.component.scss",
-          "hash": "15343477825037967477"
+          "hash": "16558779788724782156"
         },
         {
           "file": "src/app/features/components/matrix-input/matrix-input.component.ts",
-          "hash": "17101880667419295352",
+          "hash": "13096105065082961042",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/forms",
@@ -156,15 +320,15 @@
         },
         {
           "file": "src/app/features/components/matrix-result/matrix-result.component.html",
-          "hash": "17602372493753856858"
+          "hash": "13065570290633005382"
         },
         {
           "file": "src/app/features/components/matrix-result/matrix-result.component.scss",
-          "hash": "13730228120676305537"
+          "hash": "17604084356625507962"
         },
         {
           "file": "src/app/features/components/matrix-result/matrix-result.component.ts",
-          "hash": "6003130685013901243",
+          "hash": "1502444134325433640",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common"
@@ -172,15 +336,15 @@
         },
         {
           "file": "src/app/features/components/matrix-step-viewer/matrix-step-viewer.component.html",
-          "hash": "11260208201546434340"
+          "hash": "6670724868135662322"
         },
         {
           "file": "src/app/features/components/matrix-step-viewer/matrix-step-viewer.component.scss",
-          "hash": "4067543741491618617"
+          "hash": "17030459562268225168"
         },
         {
           "file": "src/app/features/components/matrix-step-viewer/matrix-step-viewer.component.ts",
-          "hash": "14775818782762747548",
+          "hash": "1204046250994907110",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common"
@@ -188,31 +352,31 @@
         },
         {
           "file": "src/app/features/components/matrix-video-player/matrix-video-player.component.html",
-          "hash": "15988117906511765422"
+          "hash": "18169102472662606791"
         },
         {
           "file": "src/app/features/components/matrix-video-player/matrix-video-player.component.scss",
-          "hash": "14971354935108319727"
+          "hash": "6615030753557794216"
         },
         {
           "file": "src/app/features/components/matrix-video-player/matrix-video-player.component.ts",
-          "hash": "15421653027251546732",
+          "hash": "3267128733017970199",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common"
           ]
         },
         {
-          "file": "src/app/features/matrix-solver/component/solvability-moda/solvability-modal.component.html",
-          "hash": "14957580488412328770"
+          "file": "src/app/features/matrix-solver/component/solvability-modal/solvability-modal.component.html",
+          "hash": "2898084551001380164"
         },
         {
-          "file": "src/app/features/matrix-solver/component/solvability-moda/solvability-modal.component.scss",
-          "hash": "18018818460987475095"
+          "file": "src/app/features/matrix-solver/component/solvability-modal/solvability-modal.component.scss",
+          "hash": "16920799933668339143"
         },
         {
-          "file": "src/app/features/matrix-solver/component/solvability-moda/solvability-modal.component.ts",
-          "hash": "12013818868574737191",
+          "file": "src/app/features/matrix-solver/component/solvability-modal/solvability-modal.component.ts",
+          "hash": "4070326394324794888",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common"
@@ -220,15 +384,15 @@
         },
         {
           "file": "src/app/features/matrix-solver/matrix-solver.component.html",
-          "hash": "12031568580209889629"
+          "hash": "18289612164149888516"
         },
         {
           "file": "src/app/features/matrix-solver/matrix-solver.component.scss",
-          "hash": "13078387223000740366"
+          "hash": "11050067725523311125"
         },
         {
           "file": "src/app/features/matrix-solver/matrix-solver.component.ts",
-          "hash": "2337795999079415858",
+          "hash": "18393470996287500935",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common"
@@ -236,7 +400,7 @@
         },
         {
           "file": "src/index.html",
-          "hash": "14171597551728102977"
+          "hash": "9761421101871898655"
         },
         {
           "file": "src/main.ts",
@@ -260,9 +424,13 @@
         {
           "file": "tsconfig.spec.json",
           "hash": "17796778151164975993"
+        },
+        {
+          "file": "vercel.json",
+          "hash": "2857147480086882921"
         }
       ]
     }
   },
-  "externalNodesHash": "11066866784214283911"
+  "externalNodesHash": "4538290771711490756"
 }

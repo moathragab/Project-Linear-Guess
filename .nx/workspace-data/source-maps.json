@@ -248,7 +248,23 @@
       "project.json",
       "nx/core/project-json"
     ],
+    "targets.build.options.allowedCommonJsDependencies.0": [
+      "project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.allowedCommonJsDependencies": [
+      "project.json",
+      "nx/core/project-json"
+    ],
     "targets.build.options.assets.0": [
+      "project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.assets.1": [
+      "project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.assets.2": [
       "project.json",
       "nx/core/project-json"
     ],
