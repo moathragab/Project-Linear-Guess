@@ -15,16 +15,11 @@ export interface ParsedLatexSystem {
 export class LatexMathParserService {
   constructor(private equationParser: EquationParserService) {}
 
-  /**
-   * Parses LaTeX output from Neural Math OCR (e.g. \begin{bmatrix}...\end{bmatrix}
-   * or \begin{cases} 2x_{1} - x_{2} = 5 \\ ... \end{cases}) into a structured linear system.
-   */
   parseLatexToSystem(latex: string): ParsedLatexSystem | null {
     if (!latex || !latex.trim()) return null;
 
     const cleaned = this.cleanLatexWrappers(latex);
 
-    // 1. Check for LaTeX Matrix Environments (\begin{bmatrix}, pmatrix, array, matrix, vmatrix)
     const matrixEnvMatch = cleaned.match(
       /\\begin\{(?:b|p|v|V|small)?matrix\}([\s\S]*?)\\end\{(?:b|p|v|V|small)?matrix\}/i
     ) || cleaned.match(/\\begin\{array\}\{[^}]*\}([\s\S]*?)\\end\{array\}/i);
@@ -48,7 +43,6 @@ export class LatexMathParserService {
       }
     }
 
-    // 2. Parse LaTeX Linear Equations (with or without \begin{cases} / \begin{aligned})
     const eqBody = cleaned
       .replace(/\\begin\{(?:cases|aligned|align\*?|gather\*?|split|eqnarray\*?)\}/gi, '')
       .replace(/\\end\{(?:cases|aligned|align\*?|gather\*?|split|eqnarray\*?)\}/gi, '');

@@ -156,7 +156,7 @@
         },
         {
           "file": "src/app/core/services/latex-math-parser.service.ts",
-          "hash": "13055254052456546652",
+          "hash": "2479512794167273713",
           "deps": [
             "npm:@angular/core"
           ]
