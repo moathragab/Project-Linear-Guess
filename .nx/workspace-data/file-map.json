@@ -253,15 +253,15 @@
           ]
         },
         {
-          "file": "src/app/features/matrix-solver/component/solvability-modal/solvability-modal.component.html",
+          "file": "src/app/features/matrix-solver/component/solvability-moda/solvability-modal.component.html",
           "hash": "2898084551001380164"
         },
         {
-          "file": "src/app/features/matrix-solver/component/solvability-modal/solvability-modal.component.scss",
+          "file": "src/app/features/matrix-solver/component/solvability-moda/solvability-modal.component.scss",
           "hash": "16920799933668339143"
         },
         {
-          "file": "src/app/features/matrix-solver/component/solvability-modal/solvability-modal.component.ts",
+          "file": "src/app/features/matrix-solver/component/solvability-moda/solvability-modal.component.ts",
           "hash": "4070326394324794888",
           "deps": [
             "npm:@angular/core",
@@ -278,7 +278,7 @@
         },
         {
           "file": "src/app/features/matrix-solver/matrix-solver.component.ts",
-          "hash": "18393470996287500935",
+          "hash": "11460739098491265147",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common"

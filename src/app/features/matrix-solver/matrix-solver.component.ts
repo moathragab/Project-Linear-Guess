@@ -4,7 +4,7 @@ import { MatrixInputComponent } from '../components/matrix-input/matrix-input.co
 import { MatrixStepViewerComponent } from '../components/matrix-step-viewer/matrix-step-viewer.component';
 import { MatrixVideoPlayerComponent } from '../components/matrix-video-player/matrix-video-player.component';
 import { MatrixResultComponent } from '../components/matrix-result/matrix-result.component';
-import { SolvabilityModalComponent } from './component/solvability-modal/solvability-modal.component';
+import { SolvabilityModalComponent } from './component/solvability-moda/solvability-modal.component';
 import { GaussSolverService } from '../../core/services/gauss-solver.service';
 import { MatrixPdfService } from '../../core/services/matrix-pdf.service';
 import { MatrixStep, FinalSolution } from '../../core/models/matrix.model';
